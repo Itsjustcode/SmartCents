@@ -66,6 +66,31 @@
         <fragment
                 android:id="@+id/homeFragment"
                 android:name="com.example.smartcents.HomeFragment"
-                android:label="HomeFragment" />
+                android:label="HomeFragment"
+                tools:layout="@layout/fragment_home">
+                <action
+                        android:id="@+id/action_homeFragment_to_transactionListFragment"
+                        app:destination="@id/transactionListFragment" />
+        </fragment>
+
+        <!-- TransactionListFragment -->
+        <fragment
+                android:id="@+id/transactionListFragment"
+                android:name="com.example.smartcents.TransactionListFragment"
+                tools:layout="@layout/fragment_transaction_list">
+                <action
+                        android:id="@+id/action_transactionListFragment_to_addTransactionFragment"
+                        app:destination="@id/addTransactionFragment" />
+        </fragment>
+
+        <!-- AddTransactionFragment -->
+        <fragment
+                android:id="@+id/addTransactionFragment"
+                android:name="com.example.smartcents.AddTransactionFragment"
+                tools:layout="@layout/fragment_add_transaction">
+                <action
+                        android:id="@+id/action_addTransactionFragment_to_transactionListFragment"
+                        app:destination="@id/transactionListFragment" />
+        </fragment>
 
 </navigation>

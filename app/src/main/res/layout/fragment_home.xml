@@ -17,4 +17,12 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:gravity="center" />
+
+    <!-- Button to navigate to Transaction List -->
+    <Button
+            android:id="@+id/btn_view_transactions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Transactions"
+            android:layout_marginTop="16dp" />
 </LinearLayout>
