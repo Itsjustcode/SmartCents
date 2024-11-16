@@ -2,83 +2,27 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            app:startDestination="@id/welcomeFragment">
+            android:id="@+id/nav_graph"
+            app:startDestination="@id/FirstFragment">
 
-        <!-- WelcomeFragment: Starting point of the app. -->
-        <fragment
-                android:id="@+id/welcomeFragment"
-                android:name="com.example.smartcents.WelcomeFragment"
-                android:label="Welcome"
-                tools:layout="@layout/fragment_welcome">
-                <!-- Action to navigate to Account Creation Fragment. -->
-                <action
-                        android:id="@+id/action_welcomeFragment_to_accountCreationFragment"
-                        app:destination="@id/accountCreationFragment" />
-        </fragment>
+    <fragment
+            android:id="@+id/FirstFragment"
+            android:name="com.example.smartcents.FirstFragment"
+            android:label="@string/first_fragment_label"
+            tools:layout="@layout/fragment_first">
 
-        <!-- AccountCreationFragment: Screen to choose account creation methods. -->
-        <fragment
-                android:id="@+id/accountCreationFragment"
-                android:name="com.example.smartcents.AccountCreationFragment"
-                android:label="Account Creation"
-                tools:layout="@layout/fragment_account_creation">
-                <!-- Action to navigate to Phone Entry Fragment. -->
-                <action
-                        android:id="@+id/action_accountCreationFragment_to_phoneEntryFragment"
-                        app:destination="@id/phoneEntryFragment" />
-        </fragment>
+        <action
+                android:id="@+id/action_FirstFragment_to_SecondFragment"
+                app:destination="@id/SecondFragment"/>
+    </fragment>
+    <fragment
+            android:id="@+id/SecondFragment"
+            android:name="com.example.smartcents.SecondFragment"
+            android:label="@string/second_fragment_label"
+            tools:layout="@layout/fragment_second">
 
-        <!-- PhoneEntryFragment: Screen to input phone number. -->
-        <fragment
-                android:id="@+id/phoneEntryFragment"
-                android:name="com.example.smartcents.PhoneEntryFragment"
-                android:label="Phone Entry"
-                tools:layout="@layout/fragment_phone_entry">
-                <!-- Action to navigate to Phone Verification Fragment. -->
-                <action
-                        android:id="@+id/action_phoneEntryFragment_to_phoneVerificationFragment"
-                        app:destination="@id/phoneVerificationFragment" />
-        </fragment>
-
-        <!-- PhoneVerificationFragment: Screen to verify phone number. -->
-        <fragment
-                android:id="@+id/phoneVerificationFragment"
-                android:name="com.example.smartcents.PhoneVerificationFragment"
-                android:label="Phone Verification"
-                tools:layout="@layout/fragment_phone_verification">
-                <!-- Action to navigate to Password Creation Fragment. -->
-                <action
-                        android:id="@+id/action_phoneVerificationFragment_to_passwordCreationFragment"
-                        app:destination="@id/passwordCreationFragment" />
-        </fragment>
-
-        <!-- PasswordCreationFragment: Screen to set a password. -->
-        <fragment
-                android:id="@+id/passwordCreationFragment"
-                android:name="com.example.smartcents.PasswordCreationFragment"
-                android:label="Password Creation"
-                tools:layout="@layout/fragment_password_creation">
-                <!-- Action to navigate to Done Fragment. -->
-                <action
-                        android:id="@+id/action_passwordCreationFragment_to_doneFragment"
-                        app:destination="@id/doneFragment" />
-        </fragment>
-
-        <!-- DoneFragment: Screen showing completion message. -->
-        <fragment
-                android:id="@+id/doneFragment"
-                android:name="com.example.smartcents.DoneFragment"
-                android:label="DoneFragment">
-                <!-- Action to navigate to Home Fragment. -->
-                <action
-                        android:id="@+id/action_doneFragment_to_homeFragment"
-                        app:destination="@id/homeFragment" />
-        </fragment>
-
-        <!-- HomeFragment: Main screen of the app after setup. -->
-        <fragment
-                android:id="@+id/homeFragment"
-                android:name="com.example.smartcents.HomeFragment"
-                android:label="HomeFragment" />
-
+        <action
+                android:id="@+id/action_SecondFragment_to_FirstFragment"
+                app:destination="@id/FirstFragment"/>
+    </fragment>
 </navigation>
