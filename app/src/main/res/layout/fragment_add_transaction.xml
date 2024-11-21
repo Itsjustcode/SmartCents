@@ -8,17 +8,16 @@
 
     <!-- Transaction Type -->
     <RadioGroup
-            android:id="@+id/rg_transaction_type"
+            android:id="@+id/rg_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="12dp">
         <RadioButton
                 android:id="@+id/rb_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Income"
-                android:checked="true" />
+                android:text="Income" />
         <RadioButton
                 android:id="@+id/rb_expense"
                 android:layout_width="wrap_content"
@@ -28,7 +27,7 @@
 
     <!-- Category Input -->
     <EditText
-            android:id="@+id/edt_category"
+            android:id="@+id/et_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Category"
@@ -36,7 +35,7 @@
 
     <!-- Amount Input -->
     <EditText
-            android:id="@+id/edt_amount"
+            android:id="@+id/et_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Amount"
@@ -45,10 +44,10 @@
 
     <!-- Notes Input -->
     <EditText
-            android:id="@+id/edt_notes"
+            android:id="@+id/et_notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Notes (Optional)"
+            android:hint="Notes (optional)"
             android:layout_marginBottom="12dp" />
 
     <!-- Save Button -->
