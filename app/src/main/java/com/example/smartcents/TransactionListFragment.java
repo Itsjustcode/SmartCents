@@ -10,24 +10,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TransactionListFragment extends Fragment {
 
-    private TextView tvBalance;
-    private Button btnAddTransaction;
-    private RecyclerView rvTransactions;
+    //textView to display the user's current balance
+    private TextView balanceTextView;
+
+    //recyclerView to display the list of transactions
+    private RecyclerView transactionRecyclerView;
+
+    //adapter to bind transaction data to the RecyclerView
     private TransactionAdapter transactionAdapter;
-    private TransactionRepository transactionRepository;
+
+    //repository to manage shared transaction data
+    private TransactionRepository sharedTransactionRepository;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //inflate the layout for this fragment
+        //create the layout for this fragment
         return inflater.inflate(R.layout.fragment_transaction_list, container, false);
     }
 
@@ -35,48 +39,51 @@ public class TransactionListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //initialize UI components
-        tvBalance = view.findViewById(R.id.tv_balance);
-        btnAddTransaction = view.findViewById(R.id.btn_add_transaction);
-        rvTransactions = view.findViewById(R.id.rv_transactions);
+        //access the shared repository instance to manage transactions
+        sharedTransactionRepository = TransactionRepository.getInstance();
 
-        //initialize repository and adapter
-        transactionRepository = new TransactionRepository();
-        transactionAdapter = new TransactionAdapter(transactionRepository.getTransactions(), transaction -> {
-            //handle click on transaction (optional for now), next patch lol
-        });
+        //find and bind the TextView for the balance
+        balanceTextView = view.findViewById(R.id.tv_balance);
 
-        //set up RecyclerView
-        rvTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvTransactions.setAdapter(transactionAdapter);
+        //find and bind the RecyclerView for transactions
+        transactionRecyclerView = view.findViewById(R.id.rv_transactions);
 
-        //set up Add Transaction button
-        btnAddTransaction.setOnClickListener(v -> addDummyTransaction());
+        //set up the RecyclerView with the transaction list
+        setupRecyclerView();
 
-        //update the balance display
+        //update the displayed balance
         updateBalance();
+
+        //Add Transaction button clicks to navigate to AddTransactionFragment
+        Button addTransactionButton = view.findViewById(R.id.btn_add_transaction);
+        addTransactionButton.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_transactionListFragment_to_addTransactionFragment);
+        });
     }
 
-    //add a dummy transaction (for testing purposes)
-    private void addDummyTransaction() {
-        //example dummy transaction
-        Transaction dummyTransaction = new Transaction(
-                "expense",
-                "Food",
-                20.50,
-                "11-15-2024",
-                "Lunch"
-        );
-        transactionRepository.addTransaction(dummyTransaction);
-
-        //notify the adapter and update balance
+    @Override
+    public void onResume() {
+        super.onResume();
+        //refresh transaction list and balance when returning to this screen
         transactionAdapter.notifyDataSetChanged();
         updateBalance();
     }
 
-    //update the total balance display
+    //sets up the RecyclerView to display the list of transactions
+    private void setupRecyclerView() {
+        //create an adapter using the list of transactions from the repository
+        transactionAdapter = new TransactionAdapter(sharedTransactionRepository.getTransactions(), getContext());
+
+        //use a LinearLayoutManager for a vertical list
+        transactionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //attach the adapter to the RecyclerView
+        transactionRecyclerView.setAdapter(transactionAdapter);
+    }
+
+    //updates the balance TextView with the current balance from the repository
     private void updateBalance() {
-        double balance = transactionRepository.getBalance();
-        tvBalance.setText(String.format("Total Balance: $%.2f", balance));
+        double balance = sharedTransactionRepository.getBalance(); //calculate the total balance
+        balanceTextView.setText(String.format("Total Balance: $%.2f", balance)); //display the balance
     }
 }
