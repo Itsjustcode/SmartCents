@@ -1,14 +1,23 @@
 package com.example.smartcents;
 
+import android.os.Build;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+
 public class Transaction {
-    private String type; // "income" or "expense"
+    public enum Type{
+        INCOME, EXPENSE
+    }
+    private Type type; // "income" or "expense"
     private String category; // E.g., "Food", "Salary", "Entertainment"
     private double amount; // Transaction amount
     private String date; // Date of the transaction
     private String notes; // Optional notes
 
     // Constructor
-    public Transaction(String type, String category, double amount, String date, String notes) {
+    public Transaction(Type type, String category, double amount, String date, String notes) {
         this.type = type;
         this.category = category;
         this.amount = amount;
@@ -17,11 +26,11 @@ public class Transaction {
     }
 
     // Getters and setters
-    public String getType() {
+    public Transaction.Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
@@ -35,6 +44,15 @@ public class Transaction {
 
     public double getAmount() {
         return amount;
+    }
+
+    public LocalDate getDateAsLocalDate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(date, formatter);
+        } else {
+            throw new UnsupportedOperationException("LocalDate is not supported on this Android version");
+        }
     }
 
     public void setAmount(double amount) {

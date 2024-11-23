@@ -26,8 +26,23 @@
 
     <!-- Transaction List -->
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_transactions"
+            android:id="@+id/transaction_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="313dp"
             android:layout_weight="1"/>
+
+    <!-- Pie Chart for Income vs Expenses -->
+    <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="16dp" />
+
+    <!-- Bar Chart for Monthly Expenses -->
+    <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/bar_chart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="16dp" />
+
 </LinearLayout>

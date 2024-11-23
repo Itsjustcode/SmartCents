@@ -52,7 +52,8 @@ public class AddTransactionFragment extends Fragment {
 
     private void saveTransaction() {
         //get the selected type from the radio group (income or expense)
-        String type = ((RadioButton) typeGroup.findViewById(typeGroup.getCheckedRadioButtonId())).getText().toString().toLowerCase();
+        String typeText = ((RadioButton) typeGroup.findViewById(typeGroup.getCheckedRadioButtonId())).getText().toString().toUpperCase();
+        Transaction.Type type = Transaction.Type.valueOf(typeText);
 
         //get the user inputs for category, amount, and notes
         String category = inputCategory.getText().toString();
@@ -65,7 +66,7 @@ public class AddTransactionFragment extends Fragment {
         //create a new transaction object with the user inputs
         Transaction newTransaction = new Transaction(type, category, amount, date, notes);
 
-        //sdd the transaction to the shared repository
+        //add the transaction to the shared repository
         sharedTransactionRepository.addTransaction(newTransaction);
     }
 }

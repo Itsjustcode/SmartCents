@@ -25,4 +25,13 @@
             android:layout_height="wrap_content"
             android:text="View Transactions"
             android:layout_marginTop="16dp" />
+
+    <!-- Button to navigate to Add Transaction -->
+    <Button
+            android:id="@+id/btn_add_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Transaction"
+            android:layout_marginTop="16dp" />
+
 </LinearLayout>
