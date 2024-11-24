@@ -93,6 +93,11 @@
                         app:destination="@id/transactionListFragment" />
         </fragment>
         <fragment android:id="@+id/budgetGlanceFragment" android:name="com.example.smartcents.BudgetGlanceFragment"
-                  android:label="fragment_budget_glance" tools:layout="@layout/fragment_budget_glance"/>
+                  android:label="fragment_budget_glance" tools:layout="@layout/fragment_budget_glance">
+                <action android:id="@+id/action_budgetGlanceFragment_to_budgetDetailedFragment"
+                        app:destination="@id/budgetDetailedFragment"/>
+        </fragment>
+        <fragment android:id="@+id/budgetDetailedFragment" android:name="com.example.smartcents.BudgetDetailedFragment"
+                  android:label="BudgetDetailedFragment"/>
 
 </navigation>
