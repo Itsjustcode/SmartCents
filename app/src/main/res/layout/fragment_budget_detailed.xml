@@ -21,7 +21,7 @@
             android:id="@+id/total_Budget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="< -- Insert Budget Amount Here -- >"
+            android:text="-- Insert Budget Amount Here --"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp" android:translationX="25dp"/>
