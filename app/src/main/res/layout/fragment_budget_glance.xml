@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".BudgetGlanceFragment">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
+
+    <!-- Top text -->
     <TextView
-            android:layout_width="200dp"
-            android:layout_height="25dp"
-            android:text="Budgeting at a Glance"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.188"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.497" android:id="@+id/textView2"/>
+            android:id="@+id/top_Text"
+            android:layout_width="382dp"
+            android:layout_height="wrap_content"
+            android:text="Your budget at a glance"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- View your budget in detail -->
+    <Button
+            android:id="@+id/btn_detailed_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Detailed View"
+            android:layout_marginBottom="16dp" />
+
+    <!-- Integrate as a graph showing details later -->
+    <androidx.fragment.app.FragmentContainerView
+            android:layout_width="match_parent"
+            android:layout_height="308dp" android:name="com.example.smartcents.BudgetGlanceFragment"
+            android:id="@+id/fragmentContainerView"/>
+
+    <!-- Short transaction list -->
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_transactions"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+</LinearLayout>
