@@ -28,6 +28,6 @@
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_transactions"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="313dp"
+            android:layout_weight="1"/>
 </LinearLayout>
