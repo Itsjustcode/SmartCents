@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.example.smartcents.MainActivity">
+
+    <item android:id="@+id/action_home"
+          android:icon="@drawable/baseline_home_24"
+          android:title="Home"/>
+
+    <item android:id="@+id/action_transaction"
+          android:icon="@drawable/baseline_bar_chart_24"
+          android:title="Transactions"/>
+
+    <item android:id="@+id/action_budgeting"
+          android:icon="@drawable/outline_attach_money_24"
+          android:title="Budgeting"/>
+
+    <item android:id="@+id/action_profile"
+          android:icon="@drawable/baseline_person_24"
+          android:title="Profile"/>
+</menu>
