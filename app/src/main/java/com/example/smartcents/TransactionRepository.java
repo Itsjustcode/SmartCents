@@ -3,13 +3,14 @@ package com.example.smartcents;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class TransactionRepository {
 
     // Singleton instance of the repository
     private static TransactionRepository instance;
 
     //list to store all transactions
-    private final List<Transaction> transactions;
+    private List<Transaction> transactions;
 
     //private constructor to enforce the Singleton pattern
     private TransactionRepository() {
@@ -35,18 +36,27 @@ public class TransactionRepository {
     }
 
     //calculates and returns the total balance based on transactions
-    public double getBalance() {
-        double balance = 0;
-
-        //iterate through the transactions and adjust the balance
+    public double getTotalIncome() {
+        double totalIncome = 0.0;
         for (Transaction transaction : transactions) {
-            if ("income".equalsIgnoreCase(transaction.getType())) {
-                balance += transaction.getAmount(); //add income to the balance
-            } else if ("expense".equalsIgnoreCase(transaction.getType())) {
-                balance -= transaction.getAmount(); //subtract expense from the balance
+            if (transaction.getType() == Transaction.Type.INCOME) {
+                totalIncome += transaction.getAmount();
             }
         }
-
-        return balance; //return the calculated balance
+        return totalIncome;
     }
+
+    public double getTotalExpenses() {
+        double totalExpenses = 0.0;
+        for (Transaction transaction : transactions) {
+            if (transaction.getType() == Transaction.Type.EXPENSE) {
+                totalExpenses += transaction.getAmount();
+            }
+        }
+        return totalExpenses;
+    }
+    public double getBalance() {
+        return getTotalIncome() - getTotalExpenses();
+    }
+
 }
