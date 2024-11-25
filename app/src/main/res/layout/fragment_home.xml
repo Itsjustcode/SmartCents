@@ -7,8 +7,7 @@
         android:gravity="center"
         android:padding="16dp">
 
-    <!-- TextView displays a welcome message for the Home Screen in bold, larger font, and centered alignment. -->
-
+    <!-- Welcome message for the Home Screen -->
     <TextView
             android:id="@+id/tv_home"
             android:layout_width="wrap_content"
@@ -25,4 +24,13 @@
             android:layout_height="wrap_content"
             android:text="View Transactions"
             android:layout_marginTop="16dp" />
+
+    <!-- Button to navigate to Budget At A Glance -->
+    <Button
+            android:id="@+id/btn_view_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Budget"
+            android:layout_marginTop="16dp" />
+
 </LinearLayout>

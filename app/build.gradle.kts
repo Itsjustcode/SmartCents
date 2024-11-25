@@ -38,7 +38,13 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.tools.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Other dependencies
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+
 }

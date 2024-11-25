@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+    <!-- Top text -->
+    <TextView
+            android:id="@+id/top_Text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your budget at a glance"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+    <!-- Button to navigate to detailed budget view -->
+    <Button
+            android:id="@+id/btn_detailed_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Detailed View"
+            android:layout_marginBottom="16dp" />
+
+    <!-- Placeholder for a future graph -->
+    <FrameLayout
+            android:id="@+id/placeholder_graph"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginBottom="16dp" />
+
+    <!-- Short transaction list -->
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_transactions"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+</LinearLayout>
