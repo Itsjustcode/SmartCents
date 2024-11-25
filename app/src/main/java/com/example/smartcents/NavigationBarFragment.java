@@ -30,24 +30,5 @@ public class NavigationBarFragment extends Fragment {
         NavHostFragment navHostFragment =
                 (NavHostFragment) getChildFragmentManager().findFragmentById(R.id.frame_layout);
         NavController navController = navHostFragment.getNavController();
-
-        // Set up the listener for BottomNavigationView
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.homeFragment:
-                    navController.navigate(R.id.homeFragment);
-                    return true;
-                case R.id.action_statistics:
-                    navController.navigate(R.id.fragment_statistics);
-                    return true;
-                case R.id.action_budgeting:
-                    navController.navigate(R.id.fragment_budgeting);
-                    return true;
-                case R.id.action_profile:
-                    navController.navigate(R.id.fragment_profile);
-                    return true;
-            }
-            return false;
-        });
     }
 }
