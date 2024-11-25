@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp">
+
+    <!-- TextView displays a welcome message for the Home Screen in bold, larger font, and centered alignment. -->
+
+    <!-- Button to navigate to Transaction List -->
+    <TextView
+            android:id="@+id/tv_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to the Home Screen"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    <Button
+            android:id="@+id/btn_view_transactions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Transactions"
+            android:layout_marginTop="16dp"/>
+</LinearLayout>
