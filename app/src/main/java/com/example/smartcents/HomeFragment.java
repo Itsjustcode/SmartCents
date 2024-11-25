@@ -16,7 +16,6 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Create the layout for the home screen.
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -27,9 +26,16 @@ public class HomeFragment extends Fragment {
         // Set up the button to navigate to Transaction List.
         Button viewTransactionsButton = view.findViewById(R.id.btn_view_transactions);
         if (viewTransactionsButton != null) {
-            viewTransactionsButton.setOnClickListener(v ->
-                    Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_transactionListFragment)
-            );
+            viewTransactionsButton.setOnClickListener(v -> {
+                Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_transactionListFragment);
+            });
         }
+
+        //button to navigate to Budget At A Glance.
+        Button viewBudgetButton = view.findViewById(R.id.btn_view_budget);
+        viewBudgetButton.setOnClickListener(v ->
+                Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_budgetGlanceFragment)
+        );
+
     }
 }
