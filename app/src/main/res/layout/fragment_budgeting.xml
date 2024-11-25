@@ -11,6 +11,6 @@
             android:layout_height="wrap_content"
             android:textSize="26sp"
             android:text="Budget Fragment"
-            android:layout_gravity="center" android:id="@+id/fragment_budgeting"/>
+            android:layout_gravity="center"/>
 
 </FrameLayout>
