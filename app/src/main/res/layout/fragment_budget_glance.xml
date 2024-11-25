@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+    <!-- Top text -->
+    <TextView
+            android:id="@+id/top_Text"
+            android:layout_width="382dp"
+            android:layout_height="wrap_content"
+            android:text="Your budget at a glance"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+    <!-- View your budget in detail -->
+    <Button
+            android:id="@+id/btn_detailed_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Detailed View"
+            android:layout_marginBottom="16dp" />
+
+    <!-- Integrate as a graph showing details later -->
+    <androidx.fragment.app.FragmentContainerView
+            android:layout_width="match_parent"
+            android:layout_height="308dp" android:name="com.example.smartcents.BudgetGlanceFragment"
+            android:id="@+id/fragmentContainerView"/>
+
+    <!-- Short transaction list -->
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_transactions"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+</LinearLayout>
