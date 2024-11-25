@@ -5,7 +5,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="16dp">
+        android:padding="16dp"
+>
 
     <!-- Text to display a welcome message for the Home Screen in bold, larger font, and centered alignment. -->
 
@@ -28,7 +29,7 @@
             android:textSize="30sp"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_marginStart="170dp"
-            android:layout_marginTop="350dp"/>
+            android:layout_marginTop="320dp"/>
 
     <!-- Text to go above Transactions on Home Screen -->
 
@@ -44,9 +45,6 @@
 
     <!-- Spacer to push buttons to the bottom -->
 
-    <View
-            android:layout_width="0dp"
-            android:layout_height="360dp"/>
 
     <!-- Bottom Buttons Container -->
 

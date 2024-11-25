@@ -71,6 +71,12 @@
                 <action
                         android:id="@+id/action_homeFragment_to_transactionListFragment"
                         app:destination="@id/transactionListFragment" />
+                <action android:id="@+id/action_homeFragment_to_fragment_statistics"
+                        app:destination="@id/fragment_statistics"/>
+                <action android:id="@+id/action_homeFragment_to_fragment_budgeting"
+                        app:destination="@id/fragment_budgeting"/>
+                <action android:id="@+id/action_homeFragment_to_fragment_profile"
+                        app:destination="@id/fragment_profile"/>
         </fragment>
 
         <!-- TransactionListFragment -->
@@ -93,4 +99,35 @@
                         app:destination="@id/transactionListFragment" />
         </fragment>
 
+        <fragment
+                android:id="@+id/fragment_statistics"
+                android:name="com.example.smartcents.StatisticsFragment"
+                android:label="Statistics"
+                tools:layout="@layout/fragment_statistics" >
+                <action
+                        android:id="@+id/action_fragment_statistics_to_homeFragment"
+                        app:destination="@id/homeFragment"/>
+        </fragment>
+
+        <fragment
+                android:id="@+id/fragment_budgeting"
+                android:name="com.example.smartcents.BudgetingFragment"
+                android:label="Budgeting"
+                tools:layout="@layout/fragment_budgeting" >
+                <action
+                        android:id="@+id/action_fragment_budgeting_to_homeFragment"
+                        app:destination="@id/homeFragment"/>
+        </fragment>
+
+        <fragment
+                android:id="@+id/fragment_profile"
+                android:name="com.example.smartcents.ProfileFragment"
+                android:label="Profile"
+                tools:layout="@layout/fragment_profile" >
+                <action
+                        android:id="@+id/action_fragment_profile_to_homeFragment"
+                        app:destination="@id/homeFragment"/>
+        </fragment>
+
 </navigation>
+
