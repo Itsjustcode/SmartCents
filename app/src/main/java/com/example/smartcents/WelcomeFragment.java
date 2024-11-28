@@ -9,16 +9,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
+import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static java.security.AccessController.getContext;
 
 public class WelcomeFragment extends Fragment {
@@ -58,13 +63,18 @@ public class WelcomeFragment extends Fragment {
     }
 
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
-        if (result.getResultCode() == Activity.RESULT_OK) {
+        IdpResponse response = result.getIdpResponse();
+        if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            Toast.makeText(getContext(), "Signed in as: " + user.getEmail(), Toast.LENGTH_SHORT).show();
+            if (user != null) {
+                //navigate to HomeFragment
+                NavController navController = Navigation.findNavController(requireView());
+                navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
+            }
         } else {
-            // Sign in failed
-            Toast.makeText(getContext(), "Sign in failed.", Toast.LENGTH_SHORT).show();
+            // Sign-in failed
+            Snackbar.make(requireView(), "Sign-in failed. Please try again.", Snackbar.LENGTH_LONG).show();
         }
     }
 }
