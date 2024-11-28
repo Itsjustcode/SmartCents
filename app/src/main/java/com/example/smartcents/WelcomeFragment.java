@@ -1,58 +1,70 @@
 package com.example.smartcents;
+import androidx.fragment.app.Fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
+import androidx.activity.result.ActivityResultLauncher;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-// Fragment for the welcome screen
+import java.util.Arrays;
+import java.util.List;
+
+import static java.security.AccessController.getContext;
+
 public class WelcomeFragment extends Fragment {
 
-    private EditText usernameEditText;
-    private EditText passwordEditText;
+    private final ActivityResultLauncher<Intent> signInLauncher =
+            registerForActivityResult(
+                    new FirebaseAuthUIActivityResultContract(),
+                    this::onSignInResult
+            );
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welcome, container, false);
 
-        // Initialize the UI elements
-        usernameEditText = view.findViewById(R.id.usernameEditText);
-        passwordEditText = view.findViewById(R.id.passwordEditText);
-
-        // Set up navigation to account creation when the Sign Up button is clicked
-        view.findViewById(R.id.signUpButton).setOnClickListener(v ->
-                Navigation.findNavController(view).navigate(R.id.action_welcomeFragment_to_accountCreationFragment)
-        );
-
-        // Set up navigation to home screen when the Login button is clicked
-        view.findViewById(R.id.loginButton).setOnClickListener(v -> {
-            // Get the username and password from the input fields
-            String username = usernameEditText.getText().toString().trim();
-            String password = passwordEditText.getText().toString().trim();
-
-            // Validate if the username or password is empty
-            if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(getActivity(), "Please enter both username and password", Toast.LENGTH_SHORT).show();
-            } else if (username.equals("admin") && password.equals("1234")) {
-                // Successful login
-                Toast.makeText(getActivity(), "Login successful!", Toast.LENGTH_SHORT).show();
-
-                // Navigate to the HomeFragment
-                Navigation.findNavController(view).navigate(R.id.action_welcomeFragment_to_homeFragment);
-            } else {
-                // Invalid credentials
-                Toast.makeText(getActivity(), "Invalid username or password", Toast.LENGTH_SHORT).show();
-            }
-        });
+        MaterialButton loginRegisterButton = view.findViewById(R.id.loginregisterButton);
+        loginRegisterButton.setOnClickListener(v -> startSignInFlow());
 
         return view;
+    }
+
+    private void startSignInFlow() {
+        // Choose authentication providers
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.PhoneBuilder().build(),
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build()
+
+                // Add other providers as needed
+        );
+
+        // Create and launch sign-in intent
+        Intent signInIntent = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .build();
+        signInLauncher.launch(signInIntent);
+    }
+
+    private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            // Successfully signed in
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            Toast.makeText(getContext(), "Signed in as: " + user.getEmail(), Toast.LENGTH_SHORT).show();
+        } else {
+            // Sign in failed
+            Toast.makeText(getContext(), "Sign in failed.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

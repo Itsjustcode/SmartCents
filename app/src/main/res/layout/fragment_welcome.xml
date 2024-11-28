@@ -7,7 +7,6 @@
         android:gravity="center"
         android:padding="16dp">
 
-        <!-- TextView displays the welcome message with bold font size and bottom padding for spacing. -->
         <TextView
                 android:id="@+id/welcomeText"
                 android:layout_width="wrap_content"
@@ -16,37 +15,16 @@
                 android:textSize="24sp"
                 android:textColor="@android:color/black"
                 android:gravity="center"
-                android:paddingBottom="24dp" />
-
-        <EditText
-                android:id="@+id/usernameEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Username" />
-
-        <EditText
-                android:id="@+id/passwordEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword" />
-
-        <!-- Button labeled 'Login' for navigating to login screen. -->
+                android:paddingBottom="24dp"/>
         <Button
-                android:id="@+id/loginButton"
+                android:id="@+id/loginregisterButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Login"
-                android:textSize="18sp" />
-
-        <!-- Button labeled 'Sign Up' for creating an account. -->
-        <Button
-                android:id="@+id/signUpButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sign Up"
+                android:text="LOGIN OR REGISTER"
                 android:textSize="18sp"
-                android:layout_marginBottom="16dp" />
+                android:onClick="handleLoginRegister"
+
+        />
 
 
 </LinearLayout>

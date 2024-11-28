@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "624874354233",
+    "project_id": "smartcents-account-creation",
+    "storage_bucket": "smartcents-account-creation.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624874354233:android:635088414649ed51eb7fe8",
+        "android_client_info": {
+          "package_name": "com.example.smartcents"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624874354233-4kt02i1700ugn1ojvasrp5vpbj87o296.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smartcents",
+            "certificate_hash": "a41de80e842bbd20d74c1830a7d732f94224f65c"
+          }
+        },
+        {
+          "client_id": "624874354233-ssusb9o0a7flgmqge7sb1hviglcp4bqa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAR4VUqV0tVyCV-WpvK5xmCX0jwXo1a0bI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "624874354233-ssusb9o0a7flgmqge7sb1hviglcp4bqa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

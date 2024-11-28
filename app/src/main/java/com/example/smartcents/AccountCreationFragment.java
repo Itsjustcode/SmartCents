@@ -18,15 +18,4 @@ public class AccountCreationFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_account_creation, container, false);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        //set up the button to navigate to the Phone Entry screen.
-        view.findViewById(R.id.btn_continue_with_phone).setOnClickListener(v -> {
-            //navigate to the PhoneEntryFragment.
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_accountCreationFragment_to_phoneEntryFragment);
-        });
-    }
 }

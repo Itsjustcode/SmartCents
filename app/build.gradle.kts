@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -32,7 +33,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
@@ -43,8 +43,29 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    // Other dependencies
+    // Firebase platform (BoM) for managing dependency versions
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+
+    // MPAndroidChart for charting
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
+    // FirebaseUI for Firebase Auth
+    implementation("com.firebaseui:firebase-ui-auth:8.0.2")
 
+    // FirebaseUI for Firestore
+    implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
+
+    // Facebook SDK (Optional: Adjust version based on compatibility)
+   // implementation("com.facebook.android:facebook-android-sdk:17.0.1")
+}
+
+// Exclude duplicate protobuf dependencies to resolve conflicts
+configurations.all {
+    exclude(group = "com.google.protobuf", module = "protobuf-java")
+    exclude(group = "com.google.protobuf", module = "protobuf-javalite")
+    resolutionStrategy.force("com.google.protobuf:protobuf-javalite:3.22.3")
 }
