@@ -8,13 +8,19 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseFirestore db;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Initialize Firestore
+        db = FirebaseFirestore.getInstance();
 
         // Set up the toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);

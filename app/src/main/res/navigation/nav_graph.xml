@@ -12,7 +12,17 @@
                 <action
                         android:id="@+id/action_welcomeFragment_to_homeFragment"
                         app:destination="@id/homeFragment" />
+                <action
+                        android:id="@+id/action_homeFragment_to_profileFragment"
+                        app:destination="@id/profileFragment" />
         </fragment>
+
+        <!-- ProfileFragment -->
+        <fragment
+                android:id="@+id/profileFragment"
+                android:name="com.example.smartcents.ProfileFragment"
+                android:label="Profile"
+                tools:layout="@layout/fragment_profile" />
 
         <!-- HomeFragment -->
         <fragment

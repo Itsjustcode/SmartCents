@@ -59,13 +59,12 @@ dependencies {
     // FirebaseUI for Firestore
     implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
 
-    // Facebook SDK (Optional: Adjust version based on compatibility)
-   // implementation("com.facebook.android:facebook-android-sdk:17.0.1")
+    // Protobuf Javalite (ensures compatibility)
+    implementation("com.google.protobuf:protobuf-javalite:3.21.12")
 }
 
 // Exclude duplicate protobuf dependencies to resolve conflicts
 configurations.all {
     exclude(group = "com.google.protobuf", module = "protobuf-java")
-    exclude(group = "com.google.protobuf", module = "protobuf-javalite")
-    resolutionStrategy.force("com.google.protobuf:protobuf-javalite:3.22.3")
+    resolutionStrategy.force("com.google.protobuf:protobuf-javalite:3.21.12")
 }

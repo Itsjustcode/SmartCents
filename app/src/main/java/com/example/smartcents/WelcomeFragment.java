@@ -25,9 +25,16 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WelcomeFragment extends Fragment {
 
@@ -51,15 +58,14 @@ public class WelcomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated: Setting up views.");
 
-        // Check if the user is already authenticated
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //if (user != null) {
-            //Log.d(TAG, "onViewCreated: User already signed in. Navigating to Home.");
-            //navigateToHome("Welcome back, " + (user.getDisplayName() != null ? user.getDisplayName() : "User") + "!");
-            //return;
-        //}
+        NavController navController = Navigation.findNavController(view);
 
-        // Set up Login/Register button
+        if (user != null) {
+            Log.d(TAG, "onViewCreated: User already signed in.");
+            checkUserProfile(user, navController);
+        }
+
         MaterialButton loginRegisterButton = view.findViewById(R.id.loginregisterButton);
         if (loginRegisterButton != null) {
             loginRegisterButton.setOnClickListener(v -> {
@@ -73,18 +79,16 @@ public class WelcomeFragment extends Fragment {
 
     private void startSignInFlow() {
         Log.d(TAG, "startSignInFlow: Starting sign-in flow.");
-        // Authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.PhoneBuilder().build(),
                 new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build()
         );
 
-        // Create and launch sign-in intent
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
-                .setLogo(R.drawable.ic_launcher_background) // App logo
+                .setLogo(R.drawable.ic_launcher_background)
                 .build();
         signInLauncher.launch(signInIntent);
     }
@@ -92,49 +96,75 @@ public class WelcomeFragment extends Fragment {
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         Log.d(TAG, "onSignInResult: Handling sign-in result.");
         IdpResponse response = result.getIdpResponse();
-        if (result.getResultCode() == Activity.RESULT_OK) {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user != null) {
-                Log.d(TAG, "onSignInResult: User signed in successfully.");
-                boolean isNewUser = response != null && response.isNewUser();
-                if (isNewUser) {
-                    sendVerificationCode(user);
-                } else {
-                    navigateToHome("Welcome back, " + (user.getDisplayName() != null ? user.getDisplayName() : "User") + "!");
-                }
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (result.getResultCode() == Activity.RESULT_OK && user != null) {
+            boolean isNewUser = response != null && response.isNewUser();
+            if (isNewUser) {
+                saveUserProfileToFirestore(user);
+                navigateToProfile("Please complete your profile.");
             } else {
-                Log.e(TAG, "onSignInResult: User is null after successful sign-in.");
+                checkUserProfile(user, Navigation.findNavController(requireView()));
             }
         } else {
             if (response == null) {
-                // User canceled the sign-in flow
                 Log.w(TAG, "onSignInResult: User canceled sign-in.");
                 showError("Sign-in canceled. Please try again.");
             } else {
-                // Handle sign-in error
                 Log.e(TAG, "onSignInResult: Sign-in error. Code: " + response.getError().getErrorCode());
                 handleSignInError(response.getError().getErrorCode());
             }
         }
     }
 
-    private void sendVerificationCode(FirebaseUser user) {
-        if (user.getPhoneNumber() != null) {
-            Log.d(TAG, "sendVerificationCode: Sending verification code to phone.");
-            navigateToHome("Phone verification code sent to " + user.getPhoneNumber() + "!");
-        } else if (!user.isEmailVerified()) {
-            Log.d(TAG, "sendVerificationCode: Sending verification email.");
-            user.sendEmailVerification()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "sendVerificationCode: Verification email sent.");
-                            navigateToHome("Verification email sent to " + user.getEmail() + "!");
-                        } else {
-                            Log.e(TAG, "sendVerificationCode: Failed to send verification email.");
-                            showError("Failed to send verification email. Please try again.");
-                        }
-                    });
-        }
+    private void saveUserProfileToFirestore(FirebaseUser user) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> userProfile = new HashMap<>();
+
+        String displayName = user.getDisplayName() != null ? user.getDisplayName() : "Anonymous";
+        String[] nameParts = displayName.split(" ", 2);
+        String firstName = nameParts.length > 0 ? nameParts[0] : "";
+        String lastName = nameParts.length > 1 ? nameParts[1] : "";
+
+        userProfile.put("firstName", firstName);
+        userProfile.put("lastName", lastName);
+        userProfile.put("email", user.getEmail());
+        userProfile.put("phone", user.getPhoneNumber());
+        userProfile.put("createdAt", FieldValue.serverTimestamp());
+
+        db.collection("users").document(user.getUid())
+                .set(userProfile, SetOptions.merge())
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "User profile saved successfully."))
+                .addOnFailureListener(e -> Log.e(TAG, "Error saving user profile.", e));
+    }
+
+    private void checkUserProfile(FirebaseUser user, NavController navController) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("users").document(user.getUid());
+
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists() && documentSnapshot.contains("firstName") && documentSnapshot.contains("lastName")) {
+                Log.d(TAG, "checkUserProfile: Profile complete. Navigating to Home.");
+                navigateToHome("Welcome back, " + documentSnapshot.getString("firstName") + "!");
+            } else {
+                Log.d(TAG, "checkUserProfile: Profile incomplete. Navigating to Profile.");
+                navigateToProfile("Please complete your profile.");
+            }
+        }).addOnFailureListener(e -> Log.e(TAG, "Error checking user profile.", e));
+    }
+
+    private void navigateToHome(String message) {
+        Log.d(TAG, "navigateToHome: Navigating to Home with message: " + message);
+        NavController navController = Navigation.findNavController(requireView());
+        navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void navigateToProfile(String message) {
+        Log.d(TAG, "navigateToProfile: Navigating to Profile with message: " + message);
+        NavController navController = Navigation.findNavController(requireView());
+        navController.navigate(R.id.action_homeFragment_to_profileFragment);
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void handleSignInError(int errorCode) {
@@ -150,13 +180,6 @@ public class WelcomeFragment extends Fragment {
         }
         Log.e(TAG, "handleSignInError: " + errorMessage);
         showError(errorMessage);
-    }
-
-    private void navigateToHome(String message) {
-        Log.d(TAG, "navigateToHome: Navigating to Home with message: " + message);
-        NavController navController = Navigation.findNavController(requireView());
-        navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void showError(String message) {
