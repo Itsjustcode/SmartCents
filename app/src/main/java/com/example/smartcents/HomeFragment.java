@@ -44,5 +44,13 @@ public class HomeFragment extends Fragment {
             navController.navigate(R.id.action_homeFragment_to_editViewProfileFragment);
         });
 
+        // Button to navigate to Savings Activity.
+        Button viewSavingsButton = view.findViewById(R.id.btn_view_savings);
+        if (viewSavingsButton != null) {
+            viewSavingsButton.setOnClickListener(v ->
+                    Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_savingsFragment)
+            );
+        }
+
     }
 }

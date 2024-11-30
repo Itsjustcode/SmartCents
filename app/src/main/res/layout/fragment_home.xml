@@ -53,4 +53,14 @@
             android:text="View Profile"
             android:layout_marginTop="16dp" />
 
+    <!-- Button to navigate to Savings -->
+    <Button
+            android:id="@+id/btn_view_savings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Savings"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center" />
+
+
 </LinearLayout>
