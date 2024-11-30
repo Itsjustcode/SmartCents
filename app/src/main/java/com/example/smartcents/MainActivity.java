@@ -1,39 +1,46 @@
 package com.example.smartcents;
 
-// Import necessary classes
 import android.os.Bundle;
-import android.util.Log;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import com.example.smartcents.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
-    private ActivityMainBinding binding; // Binding for the activity's layout
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot()); // Set the activity layout using ViewBinding
+        setContentView(R.layout.activity_main);
 
-        // Set up NavController for the navigation host
+        // Set up the toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Ensure the NavHostFragment is properly retrieved
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
-
-        if (navHostFragment != null) {
-            Log.d("MainActivity", "NavHostFragment found successfully.");
-            NavController navController = navHostFragment.getNavController();
-
-            // Set up the BottomNavigationView with the NavController
-            BottomNavigationView bottomNavigationView = binding.bottomNavigationView;
-            NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        } else {
-            Log.e("MainActivity", "NavHostFragment not found.");
+        if (navHostFragment == null) {
+            throw new IllegalStateException("NavHostFragment is null. Check activity_main.xml setup.");
         }
+
+        // Set up NavController
+        NavController navController = navHostFragment.getNavController();
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment);
+        if (navHostFragment != null) {
+            NavController navController = navHostFragment.getNavController();
+            return navController.navigateUp() || super.onSupportNavigateUp();
+        }
+        return super.onSupportNavigateUp();
     }
 }

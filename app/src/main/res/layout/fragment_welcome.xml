@@ -5,8 +5,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@android:color/holo_blue_light">
 
+        <!-- Welcome Text -->
         <TextView
                 android:id="@+id/welcomeText"
                 android:layout_width="wrap_content"
@@ -15,16 +17,16 @@
                 android:textSize="24sp"
                 android:textColor="@android:color/black"
                 android:gravity="center"
-                android:paddingBottom="24dp"/>
+                android:paddingBottom="24dp" />
+
+        <!-- Login/Register Button -->
         <Button
                 android:id="@+id/loginregisterButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LOGIN OR REGISTER"
                 android:textSize="18sp"
-                android:onClick="handleLoginRegister"
-
-        />
-
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white" />
 
 </LinearLayout>
