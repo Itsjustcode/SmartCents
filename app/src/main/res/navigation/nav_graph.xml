@@ -85,6 +85,9 @@
                 <action
                         android:id="@+id/action_homeFragment_to_budgetGlanceFragment"
                         app:destination="@id/budgetGlanceFragment" />
+                <action
+                        android:id="@+id/action_homeFragment_to_savingsFragment"
+                        app:destination="@id/savingsFragment" />
         </fragment>
 
         <!-- TransactionListFragment -->
@@ -126,4 +129,12 @@
                 android:name="com.example.smartcents.BudgetDetailedFragment"
                 android:label="Budget Detailed"
                 tools:layout="@layout/fragment_budget_detailed" />
+
+        <!-- SavingsFragment -->
+        <fragment
+                android:id="@+id/savingsFragment"
+                android:name="com.example.smartcents.SavingsFragment"
+                android:label="Savings"
+                tools:layout="@layout/fragment_savings" />
+
 </navigation>
