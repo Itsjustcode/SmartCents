@@ -17,17 +17,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"/>
 
-    <!-- Budget = Integrate later-->
-    <TextView
-            android:id="@+id/total_Budget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-- Insert Budget Amount Here --"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"/>
-
     <!-- Transaction list -->
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_transactionsDetial"
