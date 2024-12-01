@@ -99,6 +99,27 @@
                 android:id="@+id/savingsFragment"
                 android:name="com.example.smartcents.SavingsFragment"
                 android:label="Savings"
-                tools:layout="@layout/fragment_savings" />
+                tools:layout="@layout/fragment_savings" >
+                <action
+                        android:id="@+id/action_savingsFragment_to_savingsDetailFragment"
+                        app:destination="@id/savingsDetailFragment" />
+                <action
+                        android:id="@+id/action_savingsFragment_to_addSavingsFragment"
+                        app:destination="@id/addSavingsFragment" />
+        </fragment>
+        <fragment
+                android:id="@+id/addSavingsFragment"
+                android:name="com.example.smartcents.AddSavingsFragment"
+                android:label="Add Savings">
+        <action
+                android:id="@+id/action_addSavingsFragment_to_savingsFragment"
+                app:destination="@id/savingsFragment" />
+        </fragment>
+
+        <fragment
+                android:id="@+id/savingsDetailFragment"
+                android:name="com.example.smartcents.SavingsDetailFragment"
+                android:label="Savings Detail"
+                tools:layout="@layout/fragment_savings_detail" />
 
 </navigation>

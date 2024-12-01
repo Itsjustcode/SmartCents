@@ -47,6 +47,8 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
 
 
+
+
     // Firebase platform (BoM) for managing dependency versions
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
