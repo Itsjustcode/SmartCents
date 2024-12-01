@@ -12,7 +12,7 @@
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Total balance remaining is: "
+            android:text=""
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
@@ -23,7 +23,7 @@
             android:id="@+id/btn_detailed_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Detailed View"
+            android:text=""
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp" />
 

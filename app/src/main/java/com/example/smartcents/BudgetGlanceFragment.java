@@ -27,6 +27,7 @@ import static com.example.smartcents.TransactionRepository.*;
 public class BudgetGlanceFragment extends Fragment {
 
     private TextView totalAmount;
+    private TextView btnName;
     private BudgetSettings userSettings; //User budget settings
     private PieChart budgetPieChart; //Budget chart at a glance
     private RecyclerView budgetRecyclerView;
@@ -51,7 +52,7 @@ public class BudgetGlanceFragment extends Fragment {
         recyclerView.setAdapter(transactionAdapter);
 
         //Temporary budget setting for visual
-        userSettings = new BudgetSettings(false, 4000, "Test Budget");
+        userSettings = new BudgetSettings("Brendan", false, 4000, "Test Budget");
 
         return view;
     }
@@ -69,6 +70,7 @@ public class BudgetGlanceFragment extends Fragment {
 
         //bind the top text bar
         totalAmount = view.findViewById(R.id.top_Text);
+        btnName = view.findViewById(R.id.btn_detailed_view);
         //Bind the RV
         budgetRecyclerView = view.findViewById(R.id.rv_transactions);
 
@@ -96,6 +98,7 @@ public class BudgetGlanceFragment extends Fragment {
     }
 
     private void updateBalance() {
+        btnName.setText(userSettings.getBudgetName());
         double balance = (userSettings.getAmount() - transactionRepository.getTotalExpenses()); //calculate the total balance
         totalAmount.setText(String.format("Remaining Balance: $%.2f", balance)); //display the balance
     }
