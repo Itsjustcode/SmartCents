@@ -2,8 +2,6 @@ package com.example.smartcents;
 
 import android.os.Build;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 public class BudgetSettings {
     private boolean weekly; //Is the budget set to weekly or monthly
     private double budget; //Set your budget amount
