@@ -9,7 +9,9 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
 
 public class HomeFragment extends Fragment {
 
@@ -39,11 +41,12 @@ public class HomeFragment extends Fragment {
 
         // Button to navigate to Savings Activity.
         Button viewSavingsButton = view.findViewById(R.id.btn_view_savings);
-        if (viewSavingsButton != null) {
-            viewSavingsButton.setOnClickListener(v ->
-                    Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_savingsFragment)
-            );
-        }
+        viewSavingsButton.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(view);
+            navController.navigate(R.id.action_homeFragment_to_savingsFragment);
+        });
+
+
 
     }
 }
