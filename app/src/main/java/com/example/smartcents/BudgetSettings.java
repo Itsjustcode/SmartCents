@@ -16,8 +16,8 @@ public class BudgetSettings {
     }
 
     //Getters and setters
-    private String getUserName() {return userName;}
-    private void setUserName(String userName) {this.userName = userName;}
+    public String getUserName() {return userName;}
+    public void setUserName(String userName) {this.userName = userName;}
     public double getAmount() {return budget;} //Get budget amount
     public void setAmount(double budget) {this.budget = budget;} //Set budget amount
     public String getBudgetName() {return budgetName;} //Get budget name

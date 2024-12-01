@@ -2,7 +2,6 @@ package com.example.smartcents;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.github.mikephil.charting.charts.PieChart;
@@ -22,12 +20,10 @@ import com.github.mikephil.charting.data.PieEntry;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.smartcents.TransactionRepository.*;
-
 public class BudgetGlanceFragment extends Fragment {
 
-    private TextView totalAmount;
-    private TextView btnName;
+    private TextView totalAmount; //For the balance text
+    private TextView btnName; //For the button text to display users name
     private BudgetSettings userSettings; //User budget settings
     private PieChart budgetPieChart; //Budget chart at a glance
     private RecyclerView budgetRecyclerView;
@@ -51,8 +47,8 @@ public class BudgetGlanceFragment extends Fragment {
         transactionAdapter = new TransactionAdapter(transactions, getContext());
         recyclerView.setAdapter(transactionAdapter);
 
-        //Temporary budget setting for visual
-        userSettings = new BudgetSettings("Brendan", false, 4000, "Test Budget");
+        //Temporary user settings for visual
+        CreateUser();
 
         return view;
     }
@@ -63,13 +59,15 @@ public class BudgetGlanceFragment extends Fragment {
         //access repository
         transactionRepository = TransactionRepository.getInstance();
 
+        //Add fake transactions for now
         transactionRepository.addTransaction(new Transaction(Transaction.Type.INCOME, "Salary", 4000, "11-01-2024", "Salary deposit"));
         transactionRepository.addTransaction(new Transaction(Transaction.Type.EXPENSE, "Rent", 1500, "11-03-2024", "Monthly rent payment"));
         transactionRepository.addTransaction(new Transaction(Transaction.Type.EXPENSE, "Electric", 150, "11-05-2024", "Monthly electric payment"));
         transactionRepository.addTransaction(new Transaction(Transaction.Type.EXPENSE, "Subscription", 19.99, "11-07-2024", "Monthly book club subscription"));
 
-        //bind the top text bar
+        //Bind the top text bar with balance
         totalAmount = view.findViewById(R.id.top_Text);
+        //Bind the button text with name
         btnName = view.findViewById(R.id.btn_detailed_view);
         //Bind the RV
         budgetRecyclerView = view.findViewById(R.id.rv_transactions);
@@ -78,9 +76,9 @@ public class BudgetGlanceFragment extends Fragment {
         budgetPieChart = view.findViewById(R.id.pie_chart);
 
 
-        updateBalance();
-        setupPieChart();
-        setupRecyclerView();
+        updateBalance(); //Update the balance remaining
+        setupPieChart(); //Configure and display the PieChart
+        setupRecyclerView(); //Configure and display the RV
 
         //Navigate to the Budget Detailed view
         view.findViewById(R.id.btn_detailed_view).setOnClickListener(v -> {
@@ -91,19 +89,22 @@ public class BudgetGlanceFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //refresh transaction list, balance, and charts when returning to this screen
+        //Update any changes to the budget amount, and instantiate the PieChart
         transactionAdapter.notifyDataSetChanged();
         updateBalance();
         setupPieChart();
     }
 
-    private void updateBalance() {
-        btnName.setText(userSettings.getBudgetName());
+    private void CreateUser() { //Will enhance later, creates a basic default prfile now
+        userSettings = new BudgetSettings("Brendan", false, 4000, "Test Budget");
+    }
+    private void updateBalance() { //Updates the balance and budget name if changed
+        btnName.setText(userSettings.getUserName() + "'s Budget");
         double balance = (userSettings.getAmount() - transactionRepository.getTotalExpenses()); //calculate the total balance
         totalAmount.setText(String.format("Remaining Balance: $%.2f", balance)); //display the balance
     }
     private void setupRecyclerView() {
-        //create an adapter using the list of transactions from the repository
+        //create an adapter using the list of transactions
         transactionAdapter = new TransactionAdapter(transactionRepository.getTransactions(), getContext());
 
         //use a LinearLayoutManager for a vertical list
@@ -112,14 +113,16 @@ public class BudgetGlanceFragment extends Fragment {
         //attach the adapter to the RecyclerView
         budgetRecyclerView.setAdapter(transactionAdapter);
     }
-    private void setupPieChart() {
+    private void setupPieChart() { //Setup and configure the PieChart
         List<PieEntry> pieEntries = new ArrayList<>();
         double incomeTotal = transactionRepository.getTotalIncome();
         double expenseTotal = transactionRepository.getTotalExpenses();
 
+        //Split The total budget from expenses
         pieEntries.add(new PieEntry((float) incomeTotal, "Budget"));
         pieEntries.add(new PieEntry((float) expenseTotal, "Expenses"));
 
+        //Customize
         PieDataSet pieDataSet = new PieDataSet(pieEntries, "Income vs Expenses");
         pieDataSet.setColors(new int[]{Color.BLUE, Color.RED});
         PieData pieData = new PieData(pieDataSet);
