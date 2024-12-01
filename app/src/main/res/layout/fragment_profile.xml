@@ -3,33 +3,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/background_color">
 
     <TextView
             android:id="@+id/profile_first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:text="First Name: John Doe"
+    android:textColor="@color/black" />
 
     <TextView
             android:id="@+id/profile_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:text="Last Name: Doe"/>
 
     <TextView
             android:id="@+id/profile_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:text="Email: johndoe@example.com"
+    android:textColor="@color/black" />
 
     <TextView
             android:id="@+id/profile_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:text="Phone: +1234567890"
+    android:textColor="@color/black" />
 
 </LinearLayout>

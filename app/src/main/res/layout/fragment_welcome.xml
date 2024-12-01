@@ -5,8 +5,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="16dp"
-        android:background="@android:color/holo_blue_light">
+        android:padding="16dp">
 
         <!-- Welcome Text -->
         <TextView

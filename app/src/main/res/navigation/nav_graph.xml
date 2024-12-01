@@ -13,16 +13,9 @@
                         android:id="@+id/action_welcomeFragment_to_homeFragment"
                         app:destination="@id/homeFragment" />
                 <action
-                        android:id="@+id/action_homeFragment_to_profileFragment"
+                        android:id="@+id/action_welcomeFragment_to_profileFragment"
                         app:destination="@id/profileFragment" />
         </fragment>
-
-        <!-- ProfileFragment -->
-        <fragment
-                android:id="@+id/profileFragment"
-                android:name="com.example.smartcents.ProfileFragment"
-                android:label="Profile"
-                tools:layout="@layout/fragment_profile" />
 
         <!-- HomeFragment -->
         <fragment
@@ -35,13 +28,21 @@
                 <action
                         android:id="@+id/action_homeFragment_to_budgetGlanceFragment"
                         app:destination="@id/budgetGlanceFragment" />
+                <action
+                        android:id="@+id/action_homeFragment_to_profileFragment"
+                        app:destination="@id/profileFragment" />
         </fragment>
+
+        <!-- ProfileFragment -->
+        <fragment
+                android:id="@+id/profileFragment"
+                android:name="com.example.smartcents.ProfileFragment"
+                tools:layout="@layout/fragment_profile" />
 
         <!-- TransactionListFragment -->
         <fragment
                 android:id="@+id/transactionListFragment"
                 android:name="com.example.smartcents.TransactionListFragment"
-                android:label="Transaction List"
                 tools:layout="@layout/fragment_transaction_list">
                 <action
                         android:id="@+id/action_transactionListFragment_to_addTransactionFragment"
@@ -52,7 +53,6 @@
         <fragment
                 android:id="@+id/addTransactionFragment"
                 android:name="com.example.smartcents.AddTransactionFragment"
-                android:label="Add Transaction"
                 tools:layout="@layout/fragment_add_transaction">
                 <action
                         android:id="@+id/action_addTransactionFragment_to_transactionListFragment"
@@ -63,7 +63,6 @@
         <fragment
                 android:id="@+id/budgetGlanceFragment"
                 android:name="com.example.smartcents.BudgetGlanceFragment"
-                android:label="Budget At A Glance"
                 tools:layout="@layout/fragment_budget_glance">
                 <action
                         android:id="@+id/action_budgetGlanceFragment_to_budgetDetailedFragment"
@@ -74,6 +73,5 @@
         <fragment
                 android:id="@+id/budgetDetailedFragment"
                 android:name="com.example.smartcents.BudgetDetailedFragment"
-                android:label="Budget Detailed"
                 tools:layout="@layout/fragment_budget_detailed" />
 </navigation>
