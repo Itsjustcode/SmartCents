@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Transaction {
     public enum Type{
-        INCOME, EXPENSE
+        SAVINGS, INCOME, EXPENSE
     }
     private Type type; // "income" or "expense"
     private String category; // E.g., "Food", "Salary", "Entertainment"

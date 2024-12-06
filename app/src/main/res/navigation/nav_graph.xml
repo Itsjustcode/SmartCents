@@ -135,7 +135,7 @@
                 android:id="@+id/savingsFragment"
                 android:name="com.example.smartcents.SavingsFragment"
                 android:label="Savings"
-                tools:layout="@layout/fragment_savings" >
+                tools:layout="@layout/fragment_savings">
                 <action
                         android:id="@+id/action_savingsFragment_to_savingsDetailFragment"
                         app:destination="@id/savingsDetailFragment" />
@@ -143,19 +143,30 @@
                         android:id="@+id/action_savingsFragment_to_addSavingsFragment"
                         app:destination="@id/addSavingsFragment" />
         </fragment>
+
+        <!-- AddSavingsFragment -->
         <fragment
                 android:id="@+id/addSavingsFragment"
                 android:name="com.example.smartcents.AddSavingsFragment"
-                android:label="Add Savings">
-        <action
-                android:id="@+id/action_addSavingsFragment_to_savingsFragment"
-                app:destination="@id/savingsFragment" />
+                android:label="Add Savings"
+                tools:layout="@layout/fragment_add_savings">
+                <action
+                        android:id="@+id/action_addSavingsFragment_to_savingsFragment"
+                        app:destination="@id/savingsFragment" />
         </fragment>
 
+        <!-- SavingsDetailFragment -->
         <fragment
                 android:id="@+id/savingsDetailFragment"
                 android:name="com.example.smartcents.SavingsDetailFragment"
                 android:label="Savings Detail"
-                tools:layout="@layout/fragment_savings_detail" />
+                tools:layout="@layout/fragment_savings_detail">
+                <action
+                        android:id="@+id/action_savingsDetailFragment_to_addTransactionFragment"
+                        app:destination="@id/addTransactionFragment" />
+                <action
+                        android:id="@+id/action_savingsDetailFragment_to_savingsFragment"
+                        app:destination="@id/savingsFragment" />
+        </fragment>
 
 </navigation>
