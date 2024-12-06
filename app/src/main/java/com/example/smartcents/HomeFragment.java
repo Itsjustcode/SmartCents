@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
         Button btnViewProfile = view.findViewById(R.id.btn_view_profile);
         btnViewProfile.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(view);
-            navController.navigate(R.id.action_homeFragment_to_profileFragment);
+            navController.navigate(R.id.action_homeFragment_to_editViewProfileFragment);
         });
 
     }

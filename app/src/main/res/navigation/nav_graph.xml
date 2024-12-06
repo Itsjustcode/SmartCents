@@ -29,15 +29,27 @@
                         android:id="@+id/action_homeFragment_to_budgetGlanceFragment"
                         app:destination="@id/budgetGlanceFragment" />
                 <action
-                        android:id="@+id/action_homeFragment_to_profileFragment"
-                        app:destination="@id/profileFragment" />
+                        android:id="@+id/action_homeFragment_to_editViewProfileFragment"
+                        app:destination="@id/editViewProfileFragment" />
         </fragment>
 
         <!-- ProfileFragment -->
         <fragment
                 android:id="@+id/profileFragment"
                 android:name="com.example.smartcents.ProfileFragment"
-                tools:layout="@layout/fragment_profile" />
+                tools:layout="@layout/fragment_profile" >
+                <action android:id="@+id/action_profileFragment_to_homeFragment" app:destination="@id/homeFragment"/>
+        </fragment>
+
+        <!-- EditViewProfileFragment -->
+        <fragment
+                android:id="@+id/editViewProfileFragment"
+                android:name="com.example.smartcents.EditViewProfileFragment"
+                tools:layout="@layout/fragment_edit_view_profile">
+                <action
+                        android:id="@+id/action_editViewProfileFragment_to_homeFragment"
+                        app:destination="@id/homeFragment" />
+        </fragment>
 
         <!-- TransactionListFragment -->
         <fragment
