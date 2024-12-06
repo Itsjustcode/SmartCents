@@ -16,12 +16,12 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:layout_marginBottom="16dp" />
-        <!--android:src="@drawable/ic_profile_placeholder"
-        android:contentDescription="@string/profile_picture"-->
+                android:layout_marginBottom="16dp"/>
+               <!--  android:contentDescription="@string/profile_picture_placeholder" /> -->
+
         <!-- First Name -->
         <EditText
-                android:id="@+id/edit_first_name"
+                android:id="@+id/input_first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="First Name"
@@ -30,7 +30,7 @@
 
         <!-- Last Name -->
         <EditText
-                android:id="@+id/edit_last_name"
+                android:id="@+id/input_last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Last Name"
@@ -39,7 +39,7 @@
 
         <!-- Email -->
         <EditText
-                android:id="@+id/edit_email"
+                android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
@@ -48,7 +48,7 @@
 
         <!-- Phone Number -->
         <EditText
-                android:id="@+id/edit_phone_number"
+                android:id="@+id/input_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Phone Number"

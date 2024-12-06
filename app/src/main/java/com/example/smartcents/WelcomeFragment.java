@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
@@ -24,11 +24,7 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,6 +34,7 @@ import java.util.Map;
 public class WelcomeFragment extends Fragment {
 
     private static final String TAG = "WelcomeFragment";
+    private final UserRepository userRepository = new UserRepository();
 
     // FirebaseUI Launcher
     private final ActivityResultLauncher<Intent> signInLauncher =
@@ -96,34 +93,31 @@ public class WelcomeFragment extends Fragment {
     }
 
     private void saveUserProfile(FirebaseUser user) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> userProfile = new HashMap<>();
-
         userProfile.put("firstName", ""); // Placeholder
         userProfile.put("lastName", "");  // Placeholder
         userProfile.put("email", user.getEmail());
         userProfile.put("phone", user.getPhoneNumber());
         userProfile.put("createdAt", FieldValue.serverTimestamp());
 
-        db.collection("users").document(user.getUid())
-                .set(userProfile, SetOptions.merge())
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "User profile saved successfully"))
-                .addOnFailureListener(e -> Log.e(TAG, "Error saving user profile", e));
+        Log.d(TAG, "Saving new user profile for UID: " + user.getUid());
+        userRepository.saveUserProfile(user.getUid(), userProfile,
+                () -> Log.d(TAG, "User profile saved successfully for new user."),
+                e -> Log.e(TAG, "Error saving user profile for new user.", e)
+        );
     }
 
     private void checkUserProfile(FirebaseUser user) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("users").document(user.getUid());
-
-        docRef.get()
-                .addOnSuccessListener(documentSnapshot -> {
+        userRepository.getUserProfile(user.getUid(),
+                documentSnapshot -> {
                     if (documentSnapshot.exists() && documentSnapshot.contains("firstName") && documentSnapshot.contains("lastName")) {
                         navigateToHome("Welcome back!");
                     } else {
                         navigateToProfile("Please complete your profile.");
                     }
-                })
-                .addOnFailureListener(e -> Log.e(TAG, "Error checking user profile", e));
+                },
+                e -> Log.e(TAG, "Error checking user profile", e)
+        );
     }
 
     private void navigateToHome(String message) {

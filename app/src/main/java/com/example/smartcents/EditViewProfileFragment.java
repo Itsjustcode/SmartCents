@@ -85,6 +85,10 @@ public class EditViewProfileFragment extends Fragment {
             EditText emailInput = view.findViewById(R.id.input_email);
             EditText phoneInput = view.findViewById(R.id.input_phone);
 
+            if (firstNameInput == null || lastNameInput == null || emailInput == null || phoneInput == null) {
+                throw new NullPointerException("One or more EditText fields are null. Check layout IDs.");
+            }
+
             firstNameInput.setText(document.getString("firstName"));
             lastNameInput.setText(document.getString("lastName"));
             emailInput.setText(document.getString("email"));
@@ -103,6 +107,12 @@ public class EditViewProfileFragment extends Fragment {
             EditText lastNameInput = view.findViewById(R.id.input_last_name);
             EditText emailInput = view.findViewById(R.id.input_email);
             EditText phoneInput = view.findViewById(R.id.input_phone);
+
+            if (firstNameInput == null || lastNameInput == null || emailInput == null || phoneInput == null) {
+                Toast.makeText(requireContext(), "Error saving profile. Please try again.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Save button clicked but one or more EditText fields are null.");
+                return;
+            }
 
             String firstName = firstNameInput.getText().toString().trim();
             String lastName = lastNameInput.getText().toString().trim();
@@ -128,11 +138,17 @@ public class EditViewProfileFragment extends Fragment {
                     .set(profileData)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(requireContext(), "Profile updated successfully!", Toast.LENGTH_SHORT).show();
+                        navigateToHome(view);
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(requireContext(), "Error updating profile", Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "Error updating profile", e);
                     });
         });
+    }
+
+    private void navigateToHome(View view) {
+        NavController navController = Navigation.findNavController(view);
+        navController.navigate(R.id.action_editViewProfileFragment_to_homeFragment);
     }
 }
