@@ -16,8 +16,18 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:layout_marginBottom="16dp"/>
-               <!--  android:contentDescription="@string/profile_picture_placeholder" /> -->
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/ic_profile_placeholder"
+                android:contentDescription="@string/profile_picture" />
+
+
+        <Button
+                android:id="@+id/select_image_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Image"
+                android:layout_marginBottom="8dp" />
+
 
         <!-- First Name -->
         <EditText

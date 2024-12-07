@@ -1,20 +1,27 @@
 package com.example.smartcents;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,8 +33,19 @@ import java.util.Map;
 
 public class EditViewProfileFragment extends Fragment {
 
-    private FirebaseFirestore db;
     private static final String TAG = "EditViewProfileFragment";
+    private final UserRepository userRepository = new UserRepository();
+    private ImageView profileImageView;
+    private Uri selectedImageUri;
+
+    private final ActivityResultLauncher<Intent> imagePickerLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
+                            selectedImageUri = result.getData().getData();
+                            profileImageView.setImageURI(selectedImageUri);
+                        }
+                    });
 
     @Nullable
     @Override
@@ -39,7 +57,7 @@ public class EditViewProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        db = FirebaseFirestore.getInstance();
+        profileImageView = view.findViewById(R.id.profile_image);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
@@ -50,32 +68,32 @@ public class EditViewProfileFragment extends Fragment {
             Toast.makeText(requireContext(), "Error: User is not logged in.", Toast.LENGTH_SHORT).show();
         }
 
-        // Set up Cancel button
+        Button selectImageButton = view.findViewById(R.id.select_image_button);
+        selectImageButton.setOnClickListener(v -> openImagePicker());
+
         Button cancelButton = view.findViewById(R.id.cancel_button);
-        cancelButton.setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(view);
-            navController.navigate(R.id.action_editViewProfileFragment_to_homeFragment);
-        });
+        cancelButton.setOnClickListener(v -> navigateToHome(view));
+    }
+
+    private void openImagePicker() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*"); // Allows selection of all image types
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false); // Disable multiple selections
+        imagePickerLauncher.launch(intent);
     }
 
     private void loadUserProfile(View view, String userId) {
-        db.collection("users")
-                .document(userId)
-                .collection("profile")
-                .document("default")
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        populateFields(view, documentSnapshot);
-                    } else {
-                        Log.w(TAG, "No profile found for user.");
-                        Toast.makeText(requireContext(), "No profile found.", Toast.LENGTH_SHORT).show();
+        userRepository.getUserProfile(userId,
+                documentSnapshot -> {
+                    populateFields(view, documentSnapshot);
+                    String profileImageUrl = documentSnapshot.getString("profilePictureUrl");
+                    if (profileImageUrl != null) {
+                        Glide.with(this).load(profileImageUrl).into(profileImageView);
                     }
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error loading profile", e);
-                    Toast.makeText(requireContext(), "Error loading profile. Please try again.", Toast.LENGTH_SHORT).show();
-                });
+                },
+                e -> Log.e(TAG, "Error loading profile", e)
+        );
     }
 
     private void populateFields(View view, DocumentSnapshot document) {
@@ -84,10 +102,6 @@ public class EditViewProfileFragment extends Fragment {
             EditText lastNameInput = view.findViewById(R.id.input_last_name);
             EditText emailInput = view.findViewById(R.id.input_email);
             EditText phoneInput = view.findViewById(R.id.input_phone);
-
-            if (firstNameInput == null || lastNameInput == null || emailInput == null || phoneInput == null) {
-                throw new NullPointerException("One or more EditText fields are null. Check layout IDs.");
-            }
 
             firstNameInput.setText(document.getString("firstName"));
             lastNameInput.setText(document.getString("lastName"));
@@ -108,12 +122,6 @@ public class EditViewProfileFragment extends Fragment {
             EditText emailInput = view.findViewById(R.id.input_email);
             EditText phoneInput = view.findViewById(R.id.input_phone);
 
-            if (firstNameInput == null || lastNameInput == null || emailInput == null || phoneInput == null) {
-                Toast.makeText(requireContext(), "Error saving profile. Please try again.", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Save button clicked but one or more EditText fields are null.");
-                return;
-            }
-
             String firstName = firstNameInput.getText().toString().trim();
             String lastName = lastNameInput.getText().toString().trim();
             String email = emailInput.getText().toString().trim();
@@ -129,22 +137,33 @@ public class EditViewProfileFragment extends Fragment {
             profileData.put("lastName", lastName);
             profileData.put("email", email);
             profileData.put("phoneNumber", phone);
-            profileData.put("updatedAt", FieldValue.serverTimestamp());
 
-            db.collection("users")
-                    .document(userId)
-                    .collection("profile")
-                    .document("default")
-                    .set(profileData)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(requireContext(), "Profile updated successfully!", Toast.LENGTH_SHORT).show();
-                        navigateToHome(view);
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(requireContext(), "Error updating profile", Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "Error updating profile", e);
-                    });
+            if (selectedImageUri != null) {
+                userRepository.uploadProfileImage(userId, selectedImageUri,
+                        imageUrl -> {
+                            profileData.put("profilePictureUrl", imageUrl);
+                            saveProfile(userId, profileData, view);
+                        },
+                        e -> {
+                            Log.e(TAG, "Error uploading profile image", e);
+                            Toast.makeText(requireContext(), "Error saving profile image", Toast.LENGTH_SHORT).show();
+                        });
+            } else {
+                saveProfile(userId, profileData, view);
+            }
         });
+    }
+
+    private void saveProfile(String userId, Map<String, Object> profileData, View view) {
+        userRepository.saveUserProfile(userId, profileData,
+                () -> {
+                    Toast.makeText(requireContext(), "Profile updated successfully!", Toast.LENGTH_SHORT).show();
+                    navigateToHome(view);
+                },
+                e -> {
+                    Log.e(TAG, "Error saving profile", e);
+                    Toast.makeText(requireContext(), "Error saving profile", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void navigateToHome(View view) {

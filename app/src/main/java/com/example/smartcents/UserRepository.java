@@ -1,18 +1,22 @@
 package com.example.smartcents;
 
+import android.net.Uri;
+import android.util.Log;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-import android.util.Log;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
 public class UserRepository {
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseStorage storage = FirebaseStorage.getInstance(); // Added FirebaseStorage instance
     private static final String USERS_COLLECTION = "users";
     private static final String PROFILE_DOCUMENT = "default";
     private static final String TAG = "UserRepository";
@@ -56,4 +60,38 @@ public class UserRepository {
                     onFailure.accept(e);
                 });
     }
+
+    // Upload profile image to Firebase Storage
+    public void uploadProfileImage(String userId, Uri imageUri, Consumer<String> onSuccess, Consumer<Exception> onFailure) {
+        Log.d(TAG, "Starting profile image upload for user: " + userId);
+
+        if (imageUri == null) {
+            Log.e(TAG, "Image URI is null. Cannot upload.");
+            onFailure.accept(new IllegalArgumentException("Image URI is null"));
+            return;
+        }
+
+        Log.d(TAG, "Image URI: " + imageUri.toString());
+
+        StorageReference imageRef = storage.getReference().child("profile_images/" + userId + ".jpg");
+
+        imageRef.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    Log.d(TAG, "File uploaded successfully for user: " + userId);
+                    imageRef.getDownloadUrl()
+                            .addOnSuccessListener(uri -> {
+                                Log.d(TAG, "Download URL fetched successfully: " + uri.toString());
+                                onSuccess.accept(uri.toString());
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e(TAG, "Failed to fetch download URL for user: " + userId, e);
+                                onFailure.accept(e);
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error uploading profile image for user: " + userId, e);
+                    onFailure.accept(e);
+                });
+    }
+
 }
