@@ -1,62 +1,136 @@
 package com.example.smartcents;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class ProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "ProfileFragment"; // Used for logging debug/error messages
+    private final UserRepository userRepository = new UserRepository(); // Helper class to handle Firestore operations
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Inflate the fragment layout the XML file that defines the UI for this fragment
+        return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Get the currently logged-in user
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            // If a user is logged in, load their profile data and set up the save button
+            loadUserProfile(view, user.getUid());
+            setupSaveButton(view, user.getUid());
+        } else {
+            // If no user is logged in, display an error message
+            Log.e(TAG, "User is not authenticated.");
+            Toast.makeText(requireContext(), "Error: User is not logged in.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+    // Loads the user's profile from Firestore
+    private void loadUserProfile(View view, String userId) {
+        Log.d(TAG, "Loading profile for userId: " + userId);
+        userRepository.getUserProfile(userId,
+                documentSnapshot -> populateFields(view, documentSnapshot), // Populate the input fields if successful
+                e -> Log.e(TAG, "Error loading profile for userId: " + userId, e) // Log any errors that occur
+        );
+    }
+
+    // Fills the input fields with data retrieved from Firestore
+    private void populateFields(View view, DocumentSnapshot document) {
+        // Reference the input fields in the layout
+        EditText firstNameInput = view.findViewById(R.id.input_first_name);
+        EditText lastNameInput = view.findViewById(R.id.input_last_name);
+        EditText emailInput = view.findViewById(R.id.input_email);
+        EditText phoneInput = view.findViewById(R.id.input_phone);
+
+        if (document.exists()) {
+            // If the document exists, set the values of the input fields
+            firstNameInput.setText(document.getString("firstName"));
+            lastNameInput.setText(document.getString("lastName"));
+            emailInput.setText(document.getString("email"));
+            phoneInput.setText(document.getString("phoneNumber"));
+        } else {
+            // If no profile is found, log a warning
+            Log.w(TAG, "No profile found for user.");
+        }
+    }
+
+    // Sets up the functionality of the save button
+    private void setupSaveButton(View view, String userId) {
+        Button saveButton = view.findViewById(R.id.save_profile_button);
+
+        saveButton.setOnClickListener(v -> {
+            // Get the values entered in the input fields
+            EditText firstNameInput = view.findViewById(R.id.input_first_name);
+            EditText lastNameInput = view.findViewById(R.id.input_last_name);
+            EditText emailInput = view.findViewById(R.id.input_email);
+            EditText phoneInput = view.findViewById(R.id.input_phone);
+
+            String firstName = firstNameInput.getText().toString().trim();
+            String lastName = lastNameInput.getText().toString().trim();
+            String email = emailInput.getText().toString().trim();
+            String phone = phoneInput.getText().toString().trim();
+
+            // Check if any of the fields are empty
+            if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+                Toast.makeText(requireContext(), "All fields are required", Toast.LENGTH_SHORT).show();
+                return; // Stop execution if any field is empty
+            }
+
+            // Prepare the data to save to Firestore
+            Map<String, Object> profileData = new HashMap<>();
+            profileData.put("firstName", firstName);
+            profileData.put("lastName", lastName);
+            profileData.put("email", email);
+            profileData.put("phoneNumber", phone);
+
+            // Save the profile to Firestore
+            Log.d(TAG, "Saving profile for userId: " + userId);
+            userRepository.saveUserProfile(userId, profileData,
+                    () -> {
+                        // Show a success message and navigate to the home screen
+                        Toast.makeText(requireContext(), "Profile saved successfully!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "Profile saved to Firestore.");
+                        navigateToHome(view);
+                    },
+                    e -> {
+                        // Log an error if saving fails and show a message to the user
+                        Toast.makeText(requireContext(), "Error saving profile", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "Error saving profile", e);
+                    }
+            );
+        });
+    }
+
+    // Navigates back to the home screen
+    private void navigateToHome(View view) {
+        NavController navController = Navigation.findNavController(view);
+        navController.navigate(R.id.action_profileFragment_to_homeFragment);
     }
 }

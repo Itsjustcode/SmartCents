@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 public class HomeFragment extends Fragment {
@@ -36,6 +37,12 @@ public class HomeFragment extends Fragment {
         viewBudgetButton.setOnClickListener(v ->
                 Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_budgetGlanceFragment)
         );
+        // Button to view profile
+        Button btnViewProfile = view.findViewById(R.id.btn_view_profile);
+        btnViewProfile.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(view);
+            navController.navigate(R.id.action_homeFragment_to_editViewProfileFragment);
+        });
 
     }
 }

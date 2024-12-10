@@ -8,76 +8,19 @@
         <fragment
                 android:id="@+id/welcomeFragment"
                 android:name="com.example.smartcents.WelcomeFragment"
-                android:label="Welcome"
                 tools:layout="@layout/fragment_welcome">
-                <action
-                        android:id="@+id/action_welcomeFragment_to_accountCreationFragment"
-                        app:destination="@id/accountCreationFragment" />
                 <action
                         android:id="@+id/action_welcomeFragment_to_homeFragment"
                         app:destination="@id/homeFragment" />
-        </fragment>
-
-        <!-- AccountCreationFragment -->
-        <fragment
-                android:id="@+id/accountCreationFragment"
-                android:name="com.example.smartcents.AccountCreationFragment"
-                android:label="Account Creation"
-                tools:layout="@layout/fragment_account_creation">
                 <action
-                        android:id="@+id/action_accountCreationFragment_to_phoneEntryFragment"
-                        app:destination="@id/phoneEntryFragment" />
-        </fragment>
-
-        <!-- PhoneEntryFragment -->
-        <fragment
-                android:id="@+id/phoneEntryFragment"
-                android:name="com.example.smartcents.PhoneEntryFragment"
-                android:label="Phone Entry"
-                tools:layout="@layout/fragment_phone_entry">
-                <action
-                        android:id="@+id/action_phoneEntryFragment_to_phoneVerificationFragment"
-                        app:destination="@id/phoneVerificationFragment" />
-        </fragment>
-
-        <!-- PhoneVerificationFragment -->
-        <fragment
-                android:id="@+id/phoneVerificationFragment"
-                android:name="com.example.smartcents.PhoneVerificationFragment"
-                android:label="Phone Verification"
-                tools:layout="@layout/fragment_phone_verification">
-                <action
-                        android:id="@+id/action_phoneVerificationFragment_to_passwordCreationFragment"
-                        app:destination="@id/passwordCreationFragment" />
-        </fragment>
-
-        <!-- PasswordCreationFragment -->
-        <fragment
-                android:id="@+id/passwordCreationFragment"
-                android:name="com.example.smartcents.PasswordCreationFragment"
-                android:label="Password Creation"
-                tools:layout="@layout/fragment_password_creation">
-                <action
-                        android:id="@+id/action_passwordCreationFragment_to_doneFragment"
-                        app:destination="@id/doneFragment" />
-        </fragment>
-
-        <!-- DoneFragment -->
-        <fragment
-                android:id="@+id/doneFragment"
-                android:name="com.example.smartcents.DoneFragment"
-                android:label="Done"
-                tools:layout="@layout/fragment_done">
-                <action
-                        android:id="@+id/action_doneFragment_to_homeFragment"
-                        app:destination="@id/homeFragment" />
+                        android:id="@+id/action_welcomeFragment_to_profileFragment"
+                        app:destination="@id/profileFragment" />
         </fragment>
 
         <!-- HomeFragment -->
         <fragment
                 android:id="@+id/homeFragment"
                 android:name="com.example.smartcents.HomeFragment"
-                android:label="Home"
                 tools:layout="@layout/fragment_home">
                 <action
                         android:id="@+id/action_homeFragment_to_transactionListFragment"
@@ -85,13 +28,33 @@
                 <action
                         android:id="@+id/action_homeFragment_to_budgetGlanceFragment"
                         app:destination="@id/budgetGlanceFragment" />
+                <action
+                        android:id="@+id/action_homeFragment_to_editViewProfileFragment"
+                        app:destination="@id/editViewProfileFragment" />
+        </fragment>
+
+        <!-- ProfileFragment -->
+        <fragment
+                android:id="@+id/profileFragment"
+                android:name="com.example.smartcents.ProfileFragment"
+                tools:layout="@layout/fragment_profile" >
+                <action android:id="@+id/action_profileFragment_to_homeFragment" app:destination="@id/homeFragment"/>
+        </fragment>
+
+        <!-- EditViewProfileFragment -->
+        <fragment
+                android:id="@+id/editViewProfileFragment"
+                android:name="com.example.smartcents.EditViewProfileFragment"
+                tools:layout="@layout/fragment_edit_view_profile">
+                <action
+                        android:id="@+id/action_editViewProfileFragment_to_homeFragment"
+                        app:destination="@id/homeFragment" />
         </fragment>
 
         <!-- TransactionListFragment -->
         <fragment
                 android:id="@+id/transactionListFragment"
                 android:name="com.example.smartcents.TransactionListFragment"
-                android:label="Transaction List"
                 tools:layout="@layout/fragment_transaction_list">
                 <action
                         android:id="@+id/action_transactionListFragment_to_addTransactionFragment"
@@ -102,7 +65,6 @@
         <fragment
                 android:id="@+id/addTransactionFragment"
                 android:name="com.example.smartcents.AddTransactionFragment"
-                android:label="Add Transaction"
                 tools:layout="@layout/fragment_add_transaction">
                 <action
                         android:id="@+id/action_addTransactionFragment_to_transactionListFragment"
@@ -113,7 +75,6 @@
         <fragment
                 android:id="@+id/budgetGlanceFragment"
                 android:name="com.example.smartcents.BudgetGlanceFragment"
-                android:label="Budget At A Glance"
                 tools:layout="@layout/fragment_budget_glance">
                 <action
                         android:id="@+id/action_budgetGlanceFragment_to_budgetDetailedFragment"
@@ -124,6 +85,5 @@
         <fragment
                 android:id="@+id/budgetDetailedFragment"
                 android:name="com.example.smartcents.BudgetDetailedFragment"
-                android:label="Budget Detailed"
                 tools:layout="@layout/fragment_budget_detailed" />
 </navigation>
