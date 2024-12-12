@@ -62,6 +62,11 @@ public class Savings implements Serializable {
     }
 
     public void addTransaction(Transaction transaction) {
+        if (transactions == null) {
+            transactions = new ArrayList<>();
+        }
         transactions.add(transaction);
+        currentAmount += transaction.getAmount();
     }
+
 }

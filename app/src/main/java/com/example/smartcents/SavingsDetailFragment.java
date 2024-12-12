@@ -72,6 +72,8 @@ public class SavingsDetailFragment extends Fragment {
         transactionsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         transactionsRecyclerView.setAdapter(transactionAdapter);
 
+        updateTransactionsList();
+
         // Navigate to AddTransactionFragment when clicking addTransactionButton
         addTransactionButton.setOnClickListener(v -> {
             // Create a bundle to pass the savings ID or details to the AddTransactionFragment

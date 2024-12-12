@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,15 +17,18 @@ import androidx.navigation.Navigation;
 
 public class AddTransactionFragment extends Fragment {
 
-    //fields and transaction repository
-    private EditText inputCategory, inputAmount, inputNotes; //inputs for transaction details
-    private RadioGroup typeGroup; //Radio buttons for selecting transaction type
-    private TransactionRepository sharedTransactionRepository; //Shared repository for managing transactions
+    // Fields for user input and transaction repository
+    private EditText inputCategory, inputAmount, inputNotes;
+    private RadioGroup typeGroup;
+    private TransactionRepository sharedTransactionRepository;
+
+    // Field to handle savings-specific transactions
+    private String associatedSavingsGoal;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //Inflate/create the layout file to create the UI for this fragment
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_transaction, container, false);
     }
 
@@ -32,41 +36,53 @@ public class AddTransactionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //access the shared repository to save transactions
+        // Initialize the shared transaction repository
         sharedTransactionRepository = TransactionRepository.getInstance();
 
-        //find and link input fields to their respective UI elements
-        inputCategory = view.findViewById(R.id.et_category); //input for transaction category
-        inputAmount = view.findViewById(R.id.et_amount); //input for transaction amount
-        inputNotes = view.findViewById(R.id.et_notes); //input for optional transaction notes
-        typeGroup = view.findViewById(R.id.rg_type); //radio group for selecting income or expense
+        // Link UI components to corresponding fields
+        inputCategory = view.findViewById(R.id.et_category);
+        inputAmount = view.findViewById(R.id.et_amount);
+        inputNotes = view.findViewById(R.id.et_notes);
+        typeGroup = view.findViewById(R.id.rg_type);
 
-        //Set up the save button and its click action
+        // Check if the fragment was passed a savings goal to associate the transaction with
+        if (getArguments() != null) {
+            associatedSavingsGoal = getArguments().getString("savingsGoalName");
+        }
+
+        // Set up the save button and its click action
         Button saveTransactionButton = view.findViewById(R.id.btn_save_transaction);
         saveTransactionButton.setOnClickListener(v -> {
-            //Save the transaction and navigate back to the transaction list
-            saveTransaction();
-            Navigation.findNavController(v).navigate(R.id.action_addTransactionFragment_to_transactionListFragment);
+            try {
+                // Save the transaction and navigate back
+                saveTransaction();
+                Navigation.findNavController(v).navigateUp();
+            } catch (Exception e) {
+                Toast.makeText(requireContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
     private void saveTransaction() {
-        //get the selected type from the radio group (income or expense)
+        // Get the selected type from the radio group
         String typeText = ((RadioButton) typeGroup.findViewById(typeGroup.getCheckedRadioButtonId())).getText().toString().toUpperCase();
         Transaction.Type type = Transaction.Type.valueOf(typeText);
 
-        //get the user inputs for category, amount, and notes
-        String category = inputCategory.getText().toString();
-        double amount = Double.parseDouble(inputAmount.getText().toString());
-        String notes = inputNotes.getText().toString();
+        // Retrieve user inputs for the transaction details
+        String category = inputCategory.getText().toString().trim();
+        double amount = Double.parseDouble(inputAmount.getText().toString().trim());
+        String notes = inputNotes.getText().toString().trim();
+        String date = "2024-12-10"; // Placeholder for current date logic
 
-        //placeholder for the current date (to be replaced with dynamic date logic)
-        String date = "11-19-2024";
-
-        //create a new transaction object with the user inputs
+        // Create a new transaction
         Transaction newTransaction = new Transaction(type, category, amount, date, notes);
 
-        //add the transaction to the shared repository
-        sharedTransactionRepository.addTransaction(newTransaction);
+        if (type == Transaction.Type.SAVINGS && associatedSavingsGoal != null) {
+            // Add the transaction to the specific savings goal
+            SavingsRepository.getInstance().addSavings(associatedSavingsGoal, newTransaction);
+        } else {
+            // Add the transaction to the general repository
+            sharedTransactionRepository.addTransaction(newTransaction);
+        }
     }
 }
