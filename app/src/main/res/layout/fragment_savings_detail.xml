@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".SavingsDetailFragment">
+
+    <!-- Savings Name TextView -->
+    <TextView
+            android:id="@+id/text_view_savings_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Savings Goal Name"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+    <!-- Amount Saved TextView -->
+    <TextView
+            android:id="@+id/text_view_amount_saved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amount Saved: $0.00"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"/>
+
+    <!-- Amount Remaining TextView -->
+    <TextView
+            android:id="@+id/text_view_amount_remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amount Remaining: $0.00"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"/>
+
+    <!-- Pie Chart for Visualization -->
+    <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/savings_chart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="16dp"
+            tools:visibility="visible" />
+
+    <!-- Add Transaction Button -->
+    <Button
+            android:id="@+id/add_transaction_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Transaction"
+            android:layout_marginTop="16dp"/>
+
+    <!-- View Savings Button (to navigate back to SavingsFragment) -->
+    <Button
+            android:id="@+id/view_savings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View All Savings Goals"
+            android:layout_marginTop="8dp"/>
+
+    <!-- RecyclerView to Display Transactions -->
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/transactions_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"/>
+
+</LinearLayout>

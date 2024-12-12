@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="?attr/selectableItemBackground"
+              android:clickable="true"
+              android:focusable="true"
+              android:padding="16dp">
+
+    <TextView
+            android:id="@+id/savings_goal_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Savings Goal Name"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="4dp" />
+
+    <TextView
+            android:id="@+id/savings_goal_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Goal Amount: $0.00"
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray" />
+    <ImageView
+            android:id="@+id/click_indicator"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_chevron_right" />
+</LinearLayout>
