@@ -28,6 +28,17 @@ public class SavingsRepository {
         savingsList.add(savings);
     }
 
+    public void addSavings(String savingsGoalName, Transaction transaction) {
+        for (Savings savings : savingsList) {
+            if (savings.getName().equalsIgnoreCase(savingsGoalName)) {
+                savings.addTransaction(transaction);
+                break;
+            }
+        }
+    }
+
+
+
     public void removeSavings(Savings savings) {
         savingsList.remove(savings);
     }
