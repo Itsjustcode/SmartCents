@@ -59,6 +59,8 @@
                 <action
                         android:id="@+id/action_transactionListFragment_to_addTransactionFragment"
                         app:destination="@id/addTransactionFragment" />
+                <action android:id="@+id/action_transactionListFragment_to_homeFragment"
+                        app:destination="@id/homeFragment"/>
         </fragment>
 
         <!-- AddTransactionFragment -->
@@ -79,6 +81,8 @@
                 <action
                         android:id="@+id/action_budgetGlanceFragment_to_budgetDetailedFragment"
                         app:destination="@id/budgetDetailedFragment" />
+                <action android:id="@+id/action_budgetGlanceFragment_to_homeFragment"
+                        app:destination="@id/homeFragment"/>
         </fragment>
 
         <!-- BudgetDetailedFragment -->

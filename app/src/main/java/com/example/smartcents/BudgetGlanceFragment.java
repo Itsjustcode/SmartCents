@@ -35,5 +35,9 @@ public class BudgetGlanceFragment extends Fragment {
             Log.d("BudgetGlanceFragment", "Detailed View button clicked");
             Navigation.findNavController(v).navigate(R.id.action_budgetGlanceFragment_to_budgetDetailedFragment);
         });
+
+        view.findViewById(R.id.btn_home_from_glance).setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_budgetGlanceFragment_to_homeFragment);
+        });
     }
 }

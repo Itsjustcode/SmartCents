@@ -91,6 +91,10 @@ public class TransactionListFragment extends Fragment {
         addTransactionButton.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_transactionListFragment_to_addTransactionFragment);
         });
+
+        view.findViewById(R.id.btn_home_from_transaction).setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_transactionListFragment_to_homeFragment);
+        });
     }
 
     @Override

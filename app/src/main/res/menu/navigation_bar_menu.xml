@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.example.smartcents.MainActivity">
+      tools:context="com.example.smartcents.HomeFragment">
 
     <item android:id="@+id/homeFragment"
           android:icon="@drawable/baseline_home_24"
@@ -9,13 +9,10 @@
 
     <item android:id="@+id/action_statistics"
           android:icon="@drawable/baseline_bar_chart_24"
-          android:title="Statistics" />
+          android:title="Statistics"/>
 
     <item android:id="@+id/action_budgeting"
           android:icon="@drawable/outline_attach_money_24"
-          android:title="Budgeting"/>
+          android:title="Budgeting" />
 
-    <item android:id="@+id/action_profile"
-          android:icon="@drawable/baseline_person_24"
-          android:title="Profile"/>
 </menu>
