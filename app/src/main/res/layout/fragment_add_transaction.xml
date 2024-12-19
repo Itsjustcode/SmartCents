@@ -31,7 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Category"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="12dp"
+            android:textSize="20sp"/>
 
     <!-- Amount Input -->
     <EditText
@@ -40,7 +41,8 @@
             android:layout_height="wrap_content"
             android:hint="Amount"
             android:inputType="numberDecimal"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="12dp"
+            android:textSize="20sp"/>
 
     <!-- Notes Input -->
     <EditText
@@ -48,7 +50,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Notes (optional)"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="12dp"
+            android:textSize="20sp"/>
 
     <!-- Save Button -->
     <Button

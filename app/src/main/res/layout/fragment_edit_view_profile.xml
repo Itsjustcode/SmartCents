@@ -12,8 +12,8 @@
         <!-- Profile Picture Placeholder -->
         <ImageView
                 android:id="@+id/profile_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 android:layout_marginBottom="16dp"
@@ -26,7 +26,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Select Image"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:textSize="18sp"/>
 
 
         <!-- First Name -->
@@ -36,7 +37,8 @@
                 android:layout_height="wrap_content"
                 android:hint="First Name"
                 android:inputType="textPersonName"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:textSize="20sp"/>
 
         <!-- Last Name -->
         <EditText
@@ -45,7 +47,8 @@
                 android:layout_height="wrap_content"
                 android:hint="Last Name"
                 android:inputType="textPersonName"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:textSize="20sp"/>
 
         <!-- Email -->
         <EditText
@@ -54,7 +57,8 @@
                 android:layout_height="wrap_content"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:textSize="20sp"/>
 
         <!-- Phone Number -->
         <EditText
@@ -63,7 +67,8 @@
                 android:layout_height="wrap_content"
                 android:hint="Phone Number"
                 android:inputType="phone"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:textSize="20sp"/>
 
         <!-- Save Button -->
         <Button
@@ -71,14 +76,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Save Profile"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:textSize="18sp"/>
 
         <!-- Cancel Button -->
         <Button
                 android:id="@+id/cancel_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cancel" />
+                android:text="Cancel"
+                android:textSize="18sp"/>
 
     </LinearLayout>
 </ScrollView>

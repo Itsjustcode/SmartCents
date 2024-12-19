@@ -19,8 +19,9 @@
 
     <!-- Button to navigate to Transaction List -->
     <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="400dp" app:srcCompat="@drawable/ic_profile_placeholder"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            app:srcCompat="@drawable/ic_profile_placeholder"
             android:id="@+id/imageView4"/>
     <Button
             android:id="@+id/btn_view_transactions"
