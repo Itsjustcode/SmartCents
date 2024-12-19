@@ -22,6 +22,7 @@ import java.util.List;
 
 public class BudgetGlanceFragment extends Fragment {
 
+    private boolean firstTime = true;
     private TextView totalAmount; //For the balance text
     private TextView btnName; //For the button text to display users name
     private BudgetSettings userSettings; //User budget settings
@@ -29,7 +30,6 @@ public class BudgetGlanceFragment extends Fragment {
     private RecyclerView budgetRecyclerView;
     private TransactionAdapter transactionAdapter;
     private TransactionRepository transactionRepository = TransactionRepository.getInstance();
-
 
 
     @Nullable
@@ -60,10 +60,13 @@ public class BudgetGlanceFragment extends Fragment {
         transactionRepository = TransactionRepository.getInstance();
 
         //Add fake transactions for now
-        transactionRepository.addTransaction(new Transaction(Transaction.Type.INCOME, "Salary", 4000, "11-01-2024", "Salary deposit"));
-        transactionRepository.addTransaction(new Transaction(Transaction.Type.EXPENSE, "Rent", 1500, "11-03-2024", "Monthly rent payment"));
-        transactionRepository.addTransaction(new Transaction(Transaction.Type.EXPENSE, "Electric", 150, "11-05-2024", "Monthly electric payment"));
-        transactionRepository.addTransaction(new Transaction(Transaction.Type.EXPENSE, "Subscription", 19.99, "11-07-2024", "Monthly book club subscription"));
+        if(firstTime) {
+            transactionRepository.addTransaction(new Transaction(Transaction.Type.INCOME, "Salary", 4000, "11-01-2024", "Salary deposit"));
+            transactionRepository.addTransaction(new Transaction(Transaction.Type.EXPENSE, "Rent", 1500, "11-03-2024", "Monthly rent payment"));
+            transactionRepository.addTransaction(new Transaction(Transaction.Type.EXPENSE, "Electric", 150, "11-05-2024", "Monthly electric payment"));
+            transactionRepository.addTransaction(new Transaction(Transaction.Type.EXPENSE, "Subscription", 19.99, "11-07-2024", "Monthly book club subscription"));
+            firstTime = false;
+        }
 
         //Bind the top text bar with balance
         totalAmount = view.findViewById(R.id.top_Text);
@@ -95,7 +98,7 @@ public class BudgetGlanceFragment extends Fragment {
         setupPieChart();
     }
 
-    private void CreateUser() { //Will enhance later, creates a basic default prfile now
+    private void CreateUser() { //Will enhance later, creates a basic default profile now
         userSettings = new BudgetSettings("Brendan", false, 4000, "Test Budget");
     }
     private void updateBalance() { //Updates the balance and budget name if changed
@@ -104,13 +107,12 @@ public class BudgetGlanceFragment extends Fragment {
         totalAmount.setText(String.format("Remaining Balance: $%.2f", balance)); //display the balance
     }
     private void setupRecyclerView() {
-        //create an adapter using the list of transactions
+        //Create a transaction adapter
         transactionAdapter = new TransactionAdapter(transactionRepository.getTransactions(), getContext());
 
-        //use a LinearLayoutManager for a vertical list
         budgetRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //attach the adapter to the RecyclerView
+        //Bind the adapter to the RV
         budgetRecyclerView.setAdapter(transactionAdapter);
     }
     private void setupPieChart() { //Setup and configure the PieChart

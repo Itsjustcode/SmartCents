@@ -125,5 +125,8 @@
                 android:id="@+id/budgetDetailedFragment"
                 android:name="com.example.smartcents.BudgetDetailedFragment"
                 android:label="Budget Detailed"
-                tools:layout="@layout/fragment_budget_detailed" />
+                tools:layout="@layout/fragment_budget_detailed" >
+                <action android:id="@+id/action_budgetDetailedFragment_to_budgetGlanceFragment"
+                        app:destination="@id/budgetGlanceFragment"/>
+        </fragment>
 </navigation>
