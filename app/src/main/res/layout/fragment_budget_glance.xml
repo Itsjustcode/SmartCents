@@ -18,27 +18,29 @@
 
     <TextView
             android:id="@+id/top_Text"
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your budget at a glance"
+            android:text=""
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="2dp"/>
 
     <!-- Button to navigate to detailed budget view -->
     <Button
             android:id="@+id/btn_detailed_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Detailed View"
-            android:layout_marginBottom="16dp" />
+            android:text=""
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
 
     <!-- Placeholder for a future graph -->
-    <FrameLayout
-            android:id="@+id/placeholder_graph"
+    <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@android:color/darker_gray"
+            android:layout_height="300dp"
             android:layout_marginBottom="16dp" />
 
     <!-- Short transaction list -->
@@ -46,5 +48,5 @@
             android:id="@+id/rv_transactions"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="16" />
 </LinearLayout>
