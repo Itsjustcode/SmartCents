@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp" android:scrollbars="vertical">
 
     <!-- Balance Display -->
 
@@ -23,7 +23,7 @@
             android:text="Total Balance: $0.00"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"/>
 
     <!-- Add Transaction Button -->
     <Button
@@ -31,13 +31,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Transaction"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"/>
 
     <!-- Transaction List -->
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/transaction_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="313dp"
+            android:layout_height="256dp"
             android:layout_weight="1"/>
 
     <!-- Pie Chart for Income vs Expenses -->
@@ -45,13 +45,13 @@
             android:id="@+id/pie_chart"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"/>
 
     <!-- Bar Chart for Monthly Expenses -->
     <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/bar_chart"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"/>
 
 </LinearLayout>
