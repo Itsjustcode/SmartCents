@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,6 +59,11 @@ public class BudgetDetailedFragment extends Fragment {
         //updateBalance(); //Update the balance remaining
         setupBarChart(); //Configure and display the BarChart
         setupRecyclerView(); //Configure and display the RV
+
+
+        // Set up the cancel button to navigate back to the Budget Glance screen
+        Button returnButton = view.findViewById(R.id.return_button);
+        returnButton.setOnClickListener(v -> navigateToGlance(view));
     }
 
     private void setupRecyclerView() {
@@ -90,5 +97,10 @@ public class BudgetDetailedFragment extends Fragment {
         BarData barData = new BarData(barDataSet);
         budgetBarChart.setData(barData);
         budgetBarChart.invalidate();
+    }
+
+    private void navigateToGlance(View view) {
+        NavController navController = Navigation.findNavController(view);
+        navController.navigate(R.id.action_budgetDetailedFragment_to_budgetGlanceFragment);
     }
 }

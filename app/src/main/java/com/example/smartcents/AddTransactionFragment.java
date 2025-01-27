@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 public class AddTransactionFragment extends Fragment {
@@ -61,6 +62,10 @@ public class AddTransactionFragment extends Fragment {
                 Toast.makeText(requireContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Set up the cancel button to navigate back to the home screen
+        Button cancelButton = view.findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(v -> navigateToTransactionList(view));
     }
 
     private void saveTransaction() {
@@ -84,5 +89,10 @@ public class AddTransactionFragment extends Fragment {
             // Add the transaction to the general repository
             sharedTransactionRepository.addTransaction(newTransaction);
         }
+    }
+
+    private void navigateToTransactionList(View view) {
+        NavController navController = Navigation.findNavController(view);
+        navController.navigate(R.id.action_addTransactionFragment_to_transactionListFragment);
     }
 }

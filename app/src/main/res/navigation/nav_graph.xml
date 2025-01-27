@@ -71,9 +71,8 @@
                 android:id="@+id/addTransactionFragment"
                 android:name="com.example.smartcents.AddTransactionFragment"
                 tools:layout="@layout/fragment_add_transaction">
-                <action
-                        android:id="@+id/action_addTransactionFragment_to_transactionListFragment"
-                        app:destination="@id/transactionListFragment" />
+                <action android:id="@+id/action_addTransactionFragment_to_transactionListFragment"
+                        app:destination="@id/transactionListFragment"/>
         </fragment>
 
         <!-- BudgetGlanceFragment -->
@@ -92,7 +91,10 @@
         <fragment
                 android:id="@+id/budgetDetailedFragment"
                 android:name="com.example.smartcents.BudgetDetailedFragment"
-                tools:layout="@layout/fragment_budget_detailed" />
+                tools:layout="@layout/fragment_budget_detailed" >
+                <action android:id="@+id/action_budgetDetailedFragment_to_budgetGlanceFragment"
+                        app:destination="@id/budgetGlanceFragment"/>
+        </fragment>
 
         <!-- SavingsFragment -->
         <fragment
@@ -106,6 +108,8 @@
                 <action
                         android:id="@+id/action_savingsFragment_to_addSavingsFragment"
                         app:destination="@id/addSavingsFragment" />
+                <action android:id="@+id/action_savingsFragment_to_homeFragment" app:destination="@id/homeFragment"/>
+                <action android:id="@+id/action_savingsFragment_to_homeFragment2" app:destination="@id/homeFragment"/>
         </fragment>
 
         <!-- AddSavingsFragment -->

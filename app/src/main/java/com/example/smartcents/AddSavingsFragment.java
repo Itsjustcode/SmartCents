@@ -40,6 +40,10 @@ public class AddSavingsFragment extends Fragment {
 
         // Set click listener for add savings button
         addSavingsButton.setOnClickListener(v -> addSavings());
+
+        // Set up the cancel button to navigate back to the home screen
+        Button cancelButton = view.findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(v -> navigateToSavingsFragment(view));
     }
 
     private void addSavings() {
@@ -75,5 +79,10 @@ public class AddSavingsFragment extends Fragment {
 
         // Show success message
         Toast.makeText(getContext(), "Savings goal added successfully", Toast.LENGTH_SHORT).show();
+    }
+
+    private void navigateToSavingsFragment(View view) {
+        NavController navController = Navigation.findNavController(view);
+        navController.navigate(R.id.action_addSavingsFragment_to_savingsFragment);
     }
 }

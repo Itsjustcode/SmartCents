@@ -63,5 +63,14 @@
             android:id="@+id/btn_save_transaction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Transaction" />
+            android:text="Save Transaction"
+            android:textSize="18sp"/>
+
+    <!-- Cancel Button -->
+    <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textSize="18sp"/>
 </LinearLayout>
