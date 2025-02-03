@@ -59,7 +59,6 @@ public class SavingsFragment extends Fragment {
             NavController navController = Navigation.findNavController(requireView());
             navController.navigate(R.id.action_savingsFragment_to_addSavingsFragment);
         });
-
         return view;
     }
 
